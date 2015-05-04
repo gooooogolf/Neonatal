@@ -61,7 +61,8 @@
 <!-- 	<div class="page-header"> -->
 <!-- 	   <h1>จัดการข้อมูล</h1> -->
 <!-- 	</div> -->
-	<form class="form-horizontal">	
+    <div id="errMsg"></div>
+	<form class="form-horizontal" action="javascript:void(0)">	
 	<div class="form-group">
 		<label class="control-label col-sm-2" for="workgroup">รูปแบบ</label> 
 		<div class="col-sm-10">
@@ -102,13 +103,12 @@
 		</div>
 	</div>
 	<div class="form-group">
-	<label class="control-label col-sm-2" for="choice"></label> 
-	<div id="choice" class="col-sm-10">
-	</div>
+		<label class="control-label col-sm-2" for="choice"></label> 
+		<div id="choice" class="col-sm-10"></div>
 	</div>
 	<div class="form-group">        
           <div class="col-sm-offset-2 col-sm-10">
-          	<button type="submit" class="btn btn-primary">บันทึก</button>
+          	<button type="submit" class="btn btn-primary" id="submit">บันทึก</button>
           	<button type="reset" class="btn btn-danger">ยกเลิก</button>
           </div>
 	</div>
@@ -150,6 +150,14 @@ __rowTemplate += '<td><input class="form-control" type="text" id="choiceVar_{row
 __rowTemplate += '<td><button type="button" class="btn btn-danger" id="btnChoice_{rowId}" onClick="deleteRow(\'{rowId}\')">ลบ</button></td>';
 __rowTemplate += '</tr>'
 
+var __txtBoxTemplate = ''
+__txtBoxTemplate += '<div class="form-group"><div class="col-sm-10">';
+__txtBoxTemplate += '<input class="form-control" name="isChoiceText_{rowId}" id="isChoiceText_1" placeholder="ข้อความ"/>';
+__txtBoxTemplate += '</div>';
+__txtBoxTemplate += '<div class="col-sm-2">';
+__txtBoxTemplate += '<input class="form-control" name="choiceVar_{rowId}" id="choiceVar_1" placeholder="ตัวแปร"/>';
+__txtBoxTemplate += '</div></div>';
+
 var __rowCount = 0;
 
 $(document).ready(function() {
@@ -164,37 +172,89 @@ $(document).ready(function() {
 		__rowCount = __rowCount + 1;
 		var rowId = new RegExp('{rowId}', 'g');
 		var rowTemplate = __rowTemplate
-		rowTemplate = __rowTemplate.replace(rowId, __rowCount);
+		rowTemplate = rowTemplate.replace(rowId, __rowCount);
 		$('#choices').append(rowTemplate);
 		$('#choiceNumber_' + __rowCount).select();
 	});
 	
+	$('#submit').click(function() {
+		var errMsg = null;
+		var question = {};
+		question.workgroup = $('#workgroup').val();
+		question.questionNumber = $('#questionNumber').val();
+		question.questionTitle = $('#questionTitle').val();
+		question.helpText = $('#helpText').val();
+		question.questionType = $('#questionType').val();
+		question.choices = [];
+		
+		question.questionNumber = isNaN(question.questionNumber) ? 0 : question.questionNumber;
+		question.questionTitle = question.questionTitle.length == 0 ? errMsg = 'กรุณาใส่หัวข้อคำถาม' : ''; 
+		if (!errMsg && __rowCount) {
+			var ids = 0, choice = null;
+			for (var i = 1; i <= __rowCount; i++) {
+				choice = {};
+				choice.choiceNumber = $('#choiceNumber_' + i).val();
+				choice.choiceTitle = $('#choiceTitle_' + i).val();
+				choice.isChoiceText = $('#isChoiceText_' + i)[0].checked;
+				choice.choiceVar = $('#choiceVar_' + i).val();
+				if (!$.isEmptyObject(choice)) {
+					question.choices[ids] = choice;
+					ids++;
+				}
+				choice.choiceNumber = isNaN(choice.choiceNumber) ? 0 : choice.choiceNumber;
+				choice.choiceVar = choice.choiceVar.length == 0 ? errMsg = 'กรุณาใส่ค่าตัวแปรเพื่อไว้คำนวนสถิติ' : ''; 
+			}
+		}
+		
+		if (errMsg) {
+			errMsgLabel(errMsg);
+		}
+		else {
+			//ajax
+			$.ajax({
+			    url: '${pageContext.request.contextPath}/questions/new',
+			    data: JSON.stringify(question),
+			    type: "POST",
+			    dataType:"json",
+			    contentType: "application/json",
+			    cache: false,
+			    success: function(retQuestion) {
+			    	alert(JSON.stringify(retQuestion));
+			    },
+	    	    error: function(jqXHR, textStatus, errorThrown) {
+	    	    	alert(this.url + '\njqXHR status : ' + jqXHR.status + '\ntextStatus : ' + textStatus + '\nThrown : ' + errorThrown);
+	    	    }
+			});	
+		}	
+	});
+	
 });
 
+function errMsgLabel(errMsg, el) {
+    var errMsgTemplate = '<div class="alert alert-danger alert-error">';
+    errMsgTemplate += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
+    errMsgTemplate += '<strong>Error! </strong>' + errMsg;
+    errMsgTemplate += '</div>';
+    $('#errMsg').html(errMsgTemplate);
+}
 function deleteRow(rowId) {
 	$('#choice_' + rowId).remove();
 }
 
 var questionType  = {
 		textBox: function() {
-			var txtBox = '';
-			txtBox += '<div class="form-group"><div class="col-sm-10">';
-			txtBox += '<input class="form-control" name="isChoiceText" id="isChoiceText" placeholder="ข้อความ"/>';
-			txtBox += '</div>';
-			txtBox += '<div class="col-sm-2">';
-			txtBox += '<input class="form-control" name="choiceVar" id="choiceVar" placeholder="ตัวแปร"/>';
-			txtBox += '</div></div>';
-			$('#choice').html(txtBox);
+			__rowCount = 1;
+			var rowId = new RegExp('{rowId}', 'g');
+			var txtBoxTemplate = __txtBoxTemplate
+			txtBoxTemplate = txtBoxTemplate.replace(rowId, __rowCount);
+			$('#choice').html(txtBoxTemplate);
 		},	
 		textAreaBox: function() {
-			var txtBox = '';
-			txtBox += '<div class="form-group"><div class="col-sm-10">';
-			txtBox += '<textarea class="form-control" name="isChoiceText" id="isChoiceText" rows="5" placeholder="ข้อความย่อหน้า (ยาว)"></textarea>';
-			txtBox += '</div>';
-			txtBox += '<div class="col-sm-2">';
-			txtBox += '<input class="form-control" name="choiceVar" id="choiceVar" placeholder="ตัวแปร"/>';
-			txtBox += '</div></div>';
-			$('#choice').html(txtBox);
+			__rowCount = 1;
+			var rowId = new RegExp('{rowId}', 'g');
+			var txtBoxTemplate = __txtBoxTemplate
+			txtBoxTemplate = txtBoxTemplate.replace(rowId, __rowCount);
+			$('#choice').html(txtBoxTemplate);
 		},
 		radioBox: function() {				
 			$('#choice').html(__panelTemplate);
@@ -206,8 +266,6 @@ var questionType  = {
 			$('#choice').html(__panelTemplate);
 		}
 	};
-
-
 
 
 </script>

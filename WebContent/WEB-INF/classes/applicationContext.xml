@@ -71,7 +71,7 @@
 				
 	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
 		<property name="dataSource" ref="sqlDataSource" />
-		<property name="packagesToScan" value="th.mu.rama.ped.entity"/>
+		<property name="packagesToScan" value="th.mu.rama.ped.model.entity"/>
 		<property name="hibernateProperties">
 			<props>
 <!-- 				<prop key="hibernate.connection.pool_size">${hibernate.connection.pool_size}</prop> -->

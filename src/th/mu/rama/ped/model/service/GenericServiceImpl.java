@@ -5,12 +5,15 @@ package th.mu.rama.ped.model.service;
 
 import java.util.List;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import th.mu.rama.ped.model.dao.GenericDAO;
 
 /**
  * @author Sirimongkol
  *
  */
+@Transactional
 public class GenericServiceImpl<Clazz> implements GenericService<Clazz> {
 
     private GenericDAO<Clazz> genericDAO;

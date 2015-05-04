@@ -3,6 +3,12 @@
  */
 package th.mu.rama.ped.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import th.mu.rama.ped.model.entity.Choice;
 import th.mu.rama.ped.model.entity.Question;
 import th.mu.rama.ped.model.service.QuestionService;
 
@@ -43,6 +50,40 @@ public class QuestionController {
     public Question create(@RequestBody Question question) {
 		this.questionService.save(question);
         return this.questionService.find(question.getId());
+    }
+	
+	@RequestMapping(value = "/new", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+    @ResponseBody
+    public Question createQuestionWithAjax(@RequestBody String questionJSON) {
+		Question question = new Question();
+		JSONObject qjson = JSONObject.fromObject(questionJSON);
+		question.setWorkgroup(qjson.getString("workgroup"));
+		question.setQuestionNumber(qjson.getInt("questionNumber"));
+		question.setQuestionTitle(qjson.getString("questionTitle"));
+		question.setHelpText(qjson.getString("helpText"));
+		question.setQuestionType(qjson.getString("questionType"));
+		question.setStatus("active");
+		JSONArray cjarray = JSONArray.fromObject(qjson.getString("choices"));
+		if (cjarray.isArray()) {
+			List<Choice> choices = new ArrayList<Choice>();
+			Choice choice = null;
+			JSONObject cjson = null;
+			for (int i = 0; i < cjarray.size(); i++) {
+				choice = new Choice();
+				cjson = JSONObject.fromObject(cjarray.get(i));
+				choice.setChoiceNumber(cjson.getInt("choiceNumber"));
+				choice.setChoiceText(cjson.getBoolean("isChoiceText"));
+				choice.setChoiceTitle(cjson.getString("choiceTitle"));
+				choice.setChoiceVar(cjson.getString("choiceVar"));
+//				choice.setStatus(cjson.getString("status"));
+				choice.setStatus("active");
+				choices.add(choice);
+			}
+			question.setChoices(choices);
+		}
+		this.questionService.save(question);
+        return this.questionService.find(question.getId());
+//		return question;
     }
 	
 	@RequestMapping(value = "/{questionId}", method = RequestMethod.PUT)
