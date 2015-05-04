@@ -35,7 +35,7 @@
 	   	<div>
 			<div id="navbar" class="collapse navbar-collapse">
 			<ul class="nav navbar-nav">
-				<li><a href="${pageContext.request.contextPath}">จัดการข้อมูล</a></li>
+				<li><a href="${pageContext.request.contextPath}/questions">จัดการข้อมูล</a></li>
 				<li class="dropdown">
 		            <a href="#" data-toggle="dropdown" class="dropdown-toggle">บันทึกข้อมูล <b class="caret"></b></a>
 		            <ul class="dropdown-menu">
@@ -188,7 +188,7 @@ $(document).ready(function() {
 		question.choices = [];
 		
 		question.questionNumber = isNaN(question.questionNumber) ? 0 : question.questionNumber;
-		question.questionTitle = question.questionTitle.length == 0 ? errMsg = 'กรุณาใส่หัวข้อคำถาม' : ''; 
+		question.questionTitle = question.questionTitle.length == 0 ? errMsg = 'กรุณาใส่หัวข้อคำถาม' : question.questionTitle; 
 		if (!errMsg && __rowCount) {
 			var ids = 0, choice = null;
 			for (var i = 1; i <= __rowCount; i++) {
@@ -202,7 +202,7 @@ $(document).ready(function() {
 					ids++;
 				}
 				choice.choiceNumber = isNaN(choice.choiceNumber) ? 0 : choice.choiceNumber;
-				choice.choiceVar = choice.choiceVar.length == 0 ? errMsg = 'กรุณาใส่ค่าตัวแปรเพื่อไว้คำนวนสถิติ' : ''; 
+				choice.choiceVar = choice.choiceVar.length == 0 ? errMsg = 'กรุณาใส่ค่าตัวแปรเพื่อไว้คำนวนสถิติ' : choice.choiceVar; 
 			}
 		}
 		

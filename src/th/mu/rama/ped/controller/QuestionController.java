@@ -13,6 +13,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,9 +39,23 @@ public class QuestionController {
 	@Autowired
 	private QuestionService questionService;
 	
+	@RequestMapping(method = RequestMethod.GET)
+    public String findAll(Model model) {
+		model.addAttribute("questions", this.questionService.findAll());
+        return "question-list";
+    }
+	
+	@RequestMapping(value = "/{questionId}", method = RequestMethod.GET)
+    public String find(@PathVariable("questionId") Integer questionId, Model model) {
+		Question question = this.questionService.find(questionId);
+		model.addAttribute("question", question);
+		model.addAttribute("choices", JSONArray.fromObject(question.getChoices()));
+        return "question";
+    }
+	
 	@RequestMapping(value = "/{questionId}", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody 
-    public Question show(@PathVariable("questionId") Integer questionId) {
+    public Question find(@PathVariable("questionId") Integer questionId) {
         return this.questionService.find(questionId);
     }
 	
