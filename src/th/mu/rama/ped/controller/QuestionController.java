@@ -4,6 +4,8 @@
 package th.mu.rama.ped.controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import net.sf.json.JSONArray;
@@ -41,7 +43,15 @@ public class QuestionController {
 	
 	@RequestMapping(method = RequestMethod.GET)
     public String findAll(Model model) {
-		model.addAttribute("questions", this.questionService.findAll());
+		List<Question> questions = this.questionService.findAll();
+		
+		Collections.sort(questions, new Comparator<Question>() {
+		    public int compare(Question q1, Question q2) {
+		    	return q1.getQuestionNumber() - q2.getQuestionNumber();
+		    }
+		});
+		
+		model.addAttribute("questions", questions);
         return "question-list";
     }
 	

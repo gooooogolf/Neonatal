@@ -270,7 +270,7 @@ function errMsgLabel(errMsg, el) {
 
 function deleteRow(rowId) {
 
-	if($('#id_' + rowId).val() == '0') {
+	if ($('#id_' + rowId).val() == '0') {
 		$('#choice_' + rowId).remove();
 	}
 	else {
