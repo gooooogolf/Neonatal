@@ -45,12 +45,18 @@ public class QuestionController {
         return "question-list";
     }
 	
+	@RequestMapping(value = "/new", method = RequestMethod.GET)
+    public String create(Model model) {
+		model.addAttribute("questions", this.questionService.findAll());
+        return "question-create";
+    }
+	
 	@RequestMapping(value = "/{questionId}", method = RequestMethod.GET)
     public String find(@PathVariable("questionId") Integer questionId, Model model) {
 		Question question = this.questionService.find(questionId);
 		model.addAttribute("question", question);
 		model.addAttribute("choices", JSONArray.fromObject(question.getChoices()));
-        return "question";
+        return "question-view";
     }
 	
 	@RequestMapping(value = "/{questionId}", method = RequestMethod.GET, produces = "application/json")
@@ -67,9 +73,9 @@ public class QuestionController {
         return this.questionService.find(question.getId());
     }
 	
-	@RequestMapping(value = "/new", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+	@RequestMapping(value = "/save", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     @ResponseBody
-    public Question createQuestionWithAjax(@RequestBody String questionJSON) {
+    public Question saveQuestionWithAjax(@RequestBody String questionJSON) {
 		Question question = new Question();
 		JSONObject qjson = JSONObject.fromObject(questionJSON);
 		question.setWorkgroup(qjson.getString("workgroup"));
@@ -99,6 +105,40 @@ public class QuestionController {
 		this.questionService.save(question);
         return this.questionService.find(question.getId());
 //		return question;
+    }
+	
+	@RequestMapping(value = "/update", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+    @ResponseBody
+    public Question updateQuestionWithAjax(@RequestBody String questionJSON) {
+		Question question = new Question();
+		JSONObject qjson = JSONObject.fromObject(questionJSON);
+		question.setId(qjson.getInt("id"));
+		question.setWorkgroup(qjson.getString("workgroup"));
+		question.setQuestionNumber(qjson.getInt("questionNumber"));
+		question.setQuestionTitle(qjson.getString("questionTitle"));
+		question.setHelpText(qjson.getString("helpText"));
+		question.setQuestionType(qjson.getString("questionType"));
+		question.setStatus("active");
+		JSONArray cjarray = JSONArray.fromObject(qjson.getString("choices"));
+		if (cjarray.isArray()) {
+			List<Choice> choices = new ArrayList<Choice>();
+			Choice choice = null;
+			JSONObject cjson = null;
+			for (int i = 0; i < cjarray.size(); i++) {
+				choice = new Choice();
+				cjson = JSONObject.fromObject(cjarray.get(i));
+				choice.setId(cjson.getInt("id"));
+				choice.setChoiceNumber(cjson.getInt("choiceNumber"));
+				choice.setChoiceText(cjson.getBoolean("isChoiceText"));
+				choice.setChoiceTitle(cjson.getString("choiceTitle"));
+				choice.setChoiceVar(cjson.getString("choiceVar"));
+				choice.setStatus(cjson.getString("status"));
+				choices.add(choice);
+			}
+			question.setChoices(choices);
+		}
+		this.questionService.saveOrUpdate(question);
+        return this.questionService.find(question.getId());
     }
 	
 	@RequestMapping(value = "/{questionId}", method = RequestMethod.PUT)
