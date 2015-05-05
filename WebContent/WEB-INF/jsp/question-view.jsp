@@ -24,7 +24,7 @@
 		<label class="control-label col-sm-2" for="workgroup">รูปแบบ</label> 
 		<div class="col-sm-10">
 			<select class="selectpicker" id="workgroup">
-			    <option selected="selected" value="IPD">IPD</option>
+			    <option value="IPD">IPD</option>
 			    <option value="OPD">OPD</option>
 		  	</select>
 		</div>
@@ -32,26 +32,26 @@
 	<div class="form-group">
 		<label class="control-label col-sm-2" for="questionNumber">ลำดับ</label> 
 		<div class="col-sm-1">
-			<input class="form-control" name="questionNumber" id="questionNumber"/>
+			<input class="form-control" name="questionNumber" id="questionNumber" value="${question.questionNumber }"/>
 		</div>
 	</div>
 	<div class="form-group">
 		<label class="control-label col-sm-2" for="questionTitle">หัวข้อคำถาม</label> 
 		<div class="col-sm-10">
-			<input class="form-control" name="questionTitle" id="questionTitle"/>
+			<input class="form-control" name="questionTitle" id="questionTitle" value="${question.questionTitle }"/>
 		</div>
 	</div>
 	<div class="form-group">
 		<label class="control-label col-sm-2" for="helpText">ข้อความช่วยเหลือ</label> 
 		<div class="col-sm-10">
-			<input class="form-control" name="helpText" id="helpText"/>
+			<input class="form-control" name="helpText" id="helpText" value="${question.helpText }"/>
 		</div>
 	</div>
 	<div class="form-group">
 		<label class="control-label col-sm-2" for="questionType">ประเภทคำถาม</label> 
-		<div class="col-sm-10">
-			<select id="questionType" class="selectpicker">
-			    <option selected="selected" value="textBox">ข้อความ</option>
+		<div class="col-sm-10">		
+			<select id="questionType" class="selectpicker" disabled="disabled">
+			    <option value="textBox">ข้อความ</option>
 			    <option value="textAreaBox">ข้อความย่อหน้า (ยาว)</option>
 			    <option value="radioBox">หลายตัวเลือก (เลือกตอบได้ 1 คำตอบ)</option>
 			    <option value="checkBox">หลายตัวเลือก (เลือกตอบได้หลายคำตอบ)</option>
@@ -61,12 +61,14 @@
 	</div>
 	<div class="form-group">
 		<label class="control-label col-sm-2" for="choice"></label> 
-		<div id="choice" class="col-sm-10"></div>
+		<div id="choice" class="col-sm-10">
+		</div>
 	</div>
 	<div class="form-group">        
           <div class="col-sm-offset-2 col-sm-10">
           	<button type="submit" class="btn btn-primary" id="submit">บันทึก</button>
-          	<button type="reset" class="btn btn-danger">ยกเลิก</button>
+          	<button type="button" class="btn btn-danger" id="cancel">ยกเลิกแบบสอบถามข้อนี้</button>
+          	<button type="button" class="btn btn-info" onclick="javascript:window.location.href='${pageContext.request.contextPath}/questions'">ย้อนกลับ</button>
           </div>
 	</div>
 	</form>
@@ -75,8 +77,6 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/bootstrap/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/bootstrap/js/bootstrap-select.js"></script>
 <script type="text/javascript">
-var __rowTemplate;
-
 var __panelTemplate = '';
 __panelTemplate += '<div class="panel panel-default">';
 __panelTemplate += '<div class="panel-heading" align="right">';
@@ -99,7 +99,9 @@ __panelTemplate += '</table>';
 __panelTemplate += '</div>';
 __panelTemplate += '</div>';
 
-__rowTemplate = '<tr id="choice_{rowId}">';
+var __rowTemplate = '';
+__rowTemplate += '<tr id="choice_{rowId}">';
+__rowTemplate += '<input class="form-control" type="hidden" id="id_{rowId}"/><input class="form-control" type="hidden" id="status_{rowId}"/>';
 __rowTemplate += '<td><input class="form-control" type="text" id="choiceNumber_{rowId}"/></td>';
 __rowTemplate += '<td><input class="form-control" type="text" id="choiceTitle_{rowId}"/></td>';
 __rowTemplate += '<td><div class="text-center"><label><input type="checkbox" id="isChoiceText_{rowId}"></label></div></td>';
@@ -107,17 +109,20 @@ __rowTemplate += '<td><input class="form-control" type="text" id="choiceVar_{row
 __rowTemplate += '<td><button type="button" class="btn btn-danger" id="btnChoice_{rowId}" onClick="deleteRow(\'{rowId}\')">ลบ</button></td>';
 __rowTemplate += '</tr>'
 
+
 var __txtBoxTemplate = ''
-__txtBoxTemplate += '<div class="form-group"><div class="col-sm-10">';
-__txtBoxTemplate += '<input class="form-control" type="hidden" id="choiceTitle_{rowId}"/><input class="form-control" name="isChoiceText_{rowId}" id="isChoiceText_{rowId}" placeholder="ข้อความ"/>';
-__txtBoxTemplate += '</div>';
-__txtBoxTemplate += '<div class="col-sm-2">';
-__txtBoxTemplate += '<input class="form-control" name="choiceVar_{rowId}" id="choiceVar_{rowId}" placeholder="ตัวแปร"/>';
-__txtBoxTemplate += '</div></div>';
+	__txtBoxTemplate += '<div class="form-group"><div class="col-sm-10">';
+	__txtBoxTemplate += '<input class="form-control" type="hidden" id="choiceTitle_{rowId}"/><input class="form-control" type="hidden" id="id_{rowId}"/><input class="form-control" type="hidden" id="status_{rowId}"/>';
+	__txtBoxTemplate += '<input class="form-control" name="isChoiceText_{rowId}" id="isChoiceText_{rowId}" placeholder="ข้อความ"/>';
+	__txtBoxTemplate += '</div>';
+	__txtBoxTemplate += '<div class="col-sm-2">';
+	__txtBoxTemplate += '<input class="form-control" name="choiceVar_{rowId}" id="choiceVar_{rowId}" placeholder="ตัวแปร"/>';
+	__txtBoxTemplate += '</div></div>';
 
 var __txtAreaTemplate = ''
 	__txtAreaTemplate += '<div class="form-group"><div class="col-sm-10">';
-	__txtAreaTemplate += '<input class="form-control" type="hidden" id="choiceTitle_{rowId}"/><textarea class="form-control" name="isChoiceText_{rowId}" id="isChoiceText_{rowId}" rows="5" placeholder="ข้อความ"></textarea>';
+	__txtAreaTemplate += '<input class="form-control" type="hidden" id="choiceTitle_{rowId}"/><input class="form-control" type="hidden" id="id_{rowId}"/><input class="form-control" type="hidden" id="status_{rowId}"/>';
+	__txtAreaTemplate += '<textarea class="form-control" name="isChoiceText_{rowId}" id="isChoiceText_{rowId}" rows="5" placeholder="ข้อความ"></textarea>';
 	__txtAreaTemplate += '</div>';
 	__txtAreaTemplate += '<div class="col-sm-2">';
 	__txtAreaTemplate += '<input class="form-control" name="choiceVar_{rowId}" id="choiceVar_{rowId}" placeholder="ตัวแปร"/>';
@@ -125,8 +130,43 @@ var __txtAreaTemplate = ''
 
 var __rowCount = 0;
 
-$(document).ready(function() {
+function afterReady() {
+	var questionType = '${questionType}';
+	var choices = $.parseJSON('${choices}');
+	if (choices) {
+		$.each(choices, function( index, choice ) {
+			if (choice.status == 'active') {
+				var rowId = new RegExp('{rowId}', 'g');
+				if ((questionType == 'textBox') || (questionType == 'textAreaBox')) {					
+					for (var key in choice) {
+						$('#' + key + '_' + __rowCount).val(choice[key]);
+// 						console.log(__rowCount + ' ' + key + ' = ' + choice[key]);
+					}
+				}
+				else {
+					__rowCount++;
+					var rowTemplate = __rowTemplate;
+					rowTemplate = rowTemplate.replace(rowId, __rowCount);
+					$('#choices').append(rowTemplate);
+					
+					for (var key in choice) {
+						$('#' + key + '_' + __rowCount).val(choice[key]);
+					}
+					if(choice.choiceText) $('#isChoiceText_' + __rowCount).attr('checked', 'checked');
+				}
+			}
+		});
+	}
+}
 
+function toUpperCaseWithFirstChar(str){
+    return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+}
+
+$(document).ready(function() {
+	$('#workgroup').val('${question.workgroup}');
+	$('#questionType').val('${question.questionType}');
+	
 	questionType[$('#questionType').val()]();
 	$('#questionType').change(function(){
 		__rowCount = 0;
@@ -136,15 +176,18 @@ $(document).ready(function() {
 	$('#addChoice').live('click', function() {
 		__rowCount = __rowCount + 1;
 		var rowId = new RegExp('{rowId}', 'g');
-		var rowTemplate = __rowTemplate
+		var rowTemplate = __rowTemplate;
 		rowTemplate = rowTemplate.replace(rowId, __rowCount);
 		$('#choices').append(rowTemplate);
+		$('#id_' + __rowCount).val('0');
+		$('#status_' + __rowCount).val('active');
 		$('#choiceNumber_' + __rowCount).select();
 	});
 	
 	$('#submit').click(function() {
 		var errMsg = null;
 		var question = {};
+		question.id = '${question.id}';
 		question.workgroup = $('#workgroup').val();
 		question.questionNumber = $('#questionNumber').val();
 		question.questionTitle = $('#questionTitle').val();
@@ -158,10 +201,12 @@ $(document).ready(function() {
 			var ids = 0, choice = null;
 			for (var i = 1; i <= __rowCount; i++) {
 				choice = {};
+				choice.id = $('#id_' + i).val();
 				choice.choiceNumber = $('#choiceNumber_' + i).val();
 				choice.choiceTitle = $('#choiceTitle_' + i).val();
 				choice.isChoiceText = (question.questionType == 'textBox' || question.questionType == 'textAreaBox') ? true : $('#isChoiceText_' + i)[0].checked;
 				choice.choiceVar = $('#choiceVar_' + i).val();
+				choice.status = $('#status_' + i).val();
 				if (!$.isEmptyObject(choice)) {
 					question.choices[ids] = choice;
 					ids++;
@@ -175,24 +220,44 @@ $(document).ready(function() {
 			errMsgLabel(errMsg);
 		}
 		else {
-			//ajax
+			$('.alert').remove();
+// 			alert(JSON.stringify(question));
 			$.ajax({
-			    url: '${pageContext.request.contextPath}/questions/save',
+			    url: '${pageContext.request.contextPath}/questions/update',
 			    data: JSON.stringify(question),
 			    type: "POST",
 			    dataType:"json",
 			    contentType: "application/json",
 			    cache: false,
 			    success: function(retQuestion) {
-			    	window.location = '${pageContext.request.contextPath}/questions/' + retQuestion.id;
+			    	window.location = '${pageContext.request.contextPath}/questions';
 			    },
 	    	    error: function(jqXHR, textStatus, errorThrown) {
 	    	    	alert(this.url + '\njqXHR status : ' + jqXHR.status + '\ntextStatus : ' + textStatus + '\nThrown : ' + errorThrown);
 	    	    }
 			});	
 		}	
+	});	
+	
+	$('#cancel').click(function() {
+	    if (confirm("ยกเลิกแบบสอบถามข้อนี้")) {
+			$.ajax({
+			    url: '${pageContext.request.contextPath}/questions/${question.id}',
+			    type: "DELETE",
+			    dataType:"json",
+			    contentType: "application/json",
+			    cache: false,
+			    success: function(retQuestion) {
+			    	window.location = '${pageContext.request.contextPath}/questions';
+			    },
+	    	    error: function(jqXHR, textStatus, errorThrown) {
+	    	    	alert(this.url + '\njqXHR status : ' + jqXHR.status + '\ntextStatus : ' + textStatus + '\nThrown : ' + errorThrown);
+	    	    }
+			});	
+	    }
 	});
 	
+	afterReady();
 });
 
 function errMsgLabel(errMsg, el) {
@@ -202,24 +267,33 @@ function errMsgLabel(errMsg, el) {
     errMsgTemplate += '</div>';
     $('#errMsg').html(errMsgTemplate);
 }
+
 function deleteRow(rowId) {
-	$('#choice_' + rowId).remove();
+
+	if($('#id_' + rowId).val() == '0') {
+		$('#choice_' + rowId).remove();
+	}
+	else {
+		$('#choice_' + rowId).hide();
+		$('#status_' + rowId).val('terminated');	
+	}
+	
 }
 
 var questionType  = {
 		textBox: function() {
 			__rowCount = 1;
 			var rowId = new RegExp('{rowId}', 'g');
-			var txtBoxTemplate = __txtBoxTemplate
+			var txtBoxTemplate = __txtBoxTemplate;
 			txtBoxTemplate = txtBoxTemplate.replace(rowId, __rowCount);
 			$('#choice').html(txtBoxTemplate);
 		},	
 		textAreaBox: function() {
 			__rowCount = 1;
 			var rowId = new RegExp('{rowId}', 'g');
-			var txtAreaTemplate = __txtAreaTemplate
-			txtAreaTemplate = txtAreaTemplate.replace(rowId, __rowCount);
-			$('#choice').html(txtAreaTemplate);
+			var txtBoxTemplate = __txtAreaTemplate;
+			txtBoxTemplate = txtBoxTemplate.replace(rowId, __rowCount);
+			$('#choice').html(txtBoxTemplate);
 		},
 		radioBox: function() {				
 			$('#choice').html(__panelTemplate);

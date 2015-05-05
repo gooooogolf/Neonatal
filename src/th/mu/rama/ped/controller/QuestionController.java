@@ -55,6 +55,7 @@ public class QuestionController {
     public String find(@PathVariable("questionId") Integer questionId, Model model) {
 		Question question = this.questionService.find(questionId);
 		model.addAttribute("question", question);
+		model.addAttribute("questionType", question.getQuestionType());
 		model.addAttribute("choices", JSONArray.fromObject(question.getChoices()));
         return "question-view";
     }
@@ -77,6 +78,7 @@ public class QuestionController {
     @ResponseBody
     public Question saveQuestionWithAjax(@RequestBody String questionJSON) {
 		Question question = new Question();
+//		System.out.println(questionJSON);
 		JSONObject qjson = JSONObject.fromObject(questionJSON);
 		question.setWorkgroup(qjson.getString("workgroup"));
 		question.setQuestionNumber(qjson.getInt("questionNumber"));
@@ -111,6 +113,7 @@ public class QuestionController {
     @ResponseBody
     public Question updateQuestionWithAjax(@RequestBody String questionJSON) {
 		Question question = new Question();
+		System.out.println(questionJSON);
 		JSONObject qjson = JSONObject.fromObject(questionJSON);
 		question.setId(qjson.getInt("id"));
 		question.setWorkgroup(qjson.getString("workgroup"));
@@ -151,7 +154,10 @@ public class QuestionController {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@RequestMapping(value = "/{questionId}", method = RequestMethod.DELETE)
 	public void delete(@PathVariable("questionId") Integer questionId) {
-	        this.questionService.delete(this.questionService.find(questionId));
+//	        this.questionService.delete(this.questionService.find(questionId));
+		Question question = this.questionService.find(questionId);
+		question.setStatus("terminated");
+		this.questionService.saveOrUpdate(question);
 	}
 	
 	@ExceptionHandler(Exception.class)
