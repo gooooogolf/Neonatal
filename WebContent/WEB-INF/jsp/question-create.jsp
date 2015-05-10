@@ -184,7 +184,8 @@ $(document).ready(function() {
 			    contentType: "application/json",
 			    cache: false,
 			    success: function(retQuestion) {
-			    	window.location = '${pageContext.request.contextPath}/questions/' + retQuestion.id;
+// 			    	window.location = '${pageContext.request.contextPath}/questions/' + retQuestion.id;
+			    	window.location = '${pageContext.request.contextPath}/questions';
 			    },
 	    	    error: function(jqXHR, textStatus, errorThrown) {
 	    	    	alert(this.url + '\njqXHR status : ' + jqXHR.status + '\ntextStatus : ' + textStatus + '\nThrown : ' + errorThrown);
