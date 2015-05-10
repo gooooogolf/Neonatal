@@ -33,8 +33,8 @@
 				<li class="dropdown">
 		            <a href="#" data-toggle="dropdown" class="dropdown-toggle">บันทึกข้อมูล <b class="caret"></b></a>
 		            <ul class="dropdown-menu">
-		                <li><a href="${pageContext.request.contextPath}">IPD</a></li>
-		                <li><a href="${pageContext.request.contextPath}">OPD</a></li>
+		                <li><a href="${pageContext.request.contextPath}/answer/ipd">IPD</a></li>
+		                <li><a href="${pageContext.request.contextPath}/answer/opd">OPD</a></li>
 		            </ul>
 			    </li>
 			    <li><a href="${pageContext.request.contextPath}">รายงาน</a></li>

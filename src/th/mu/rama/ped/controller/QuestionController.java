@@ -6,6 +6,7 @@ package th.mu.rama.ped.controller;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 
 import net.sf.json.JSONArray;
@@ -50,7 +51,13 @@ public class QuestionController {
 		    	return q1.getQuestionNumber() - q2.getQuestionNumber();
 		    }
 		});
-		
+		HashMap<String, String> questionTypeMap = new HashMap<String, String>();
+		questionTypeMap.put("textBox", "ข้อความ");
+		questionTypeMap.put("textAreaBox", "ข้อความย่อหน้า (ยาว)");
+		questionTypeMap.put("radioBox", "หลายตัวเลือก (เลือกตอบได้ 1 คำตอบ)");
+		questionTypeMap.put("checkBox", "หลายตัวเลือก (เลือกตอบได้หลายคำตอบ)");
+		questionTypeMap.put("selectBox", "หลายรายการ");
+		model.addAttribute("questionTypeMap", questionTypeMap);
 		model.addAttribute("questions", questions);
         return "question-list";
     }

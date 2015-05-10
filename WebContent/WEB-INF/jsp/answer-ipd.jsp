@@ -17,36 +17,9 @@
 <jsp:include page="navbar.jsp"></jsp:include>
 <div class="container">
 	<div class="page-header">
-	   <h1>รายการคำถาม</h1>
+	   <h1>IPD</h1>
 	</div>
-	<div class="table-responsive">
-	<table class="table table-hover">
-		<thead>
-		<tr>
-			<th>รูปแบบ</th>
-			<th>ลำดับ</th>
-			<th>หัวข้อคำถาม</th>
-			<th>ข้อความช่วยเหลือ</th>
-			<th>ประเภทคำถาม</th>
-			<th></th>
-		</tr>
-		</thead>
-		<c:forEach items="${questions}" var="question">
-		<c:if test="${question.status == 'active'}">
-			<tr>
-				<td>${question.workgroup }</td>
-				<td>${question.questionNumber }</td>
-				<td>${question.questionTitle }</td>
-				<td>${question.helpText }</td>
-				<td>${questionTypeMap[question.questionType] }</td>
-				<td>
-					<button type="button" class="btn btn-info" onclick="javascript:window.location.href='${pageContext.request.contextPath}/questions/${question.id }'">View</button>
-				</td>
-			</tr>
-		</c:if>
-		</c:forEach>
-	</table>
-	</div>
+
 </div>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jquery-1.8.3.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/bootstrap/js/bootstrap.min.js"></script>
