@@ -64,8 +64,15 @@ public class QuestionController {
 	
 	@RequestMapping(value = "/new", method = RequestMethod.GET)
     public String create(Model model) {
-		model.addAttribute("questions", this.questionService.findAll());
+//		model.addAttribute("size", this.questionService.findAll().size());
         return "question-create";
+    }
+	
+	@RequestMapping(value = "/count/{workgroup}", method = RequestMethod.GET)
+	@ResponseBody
+	public String countByWorkgroup(@PathVariable("workgroup") String workgroup) {		
+//        return String.valueOf(this.questionService.countAll());
+        return String.valueOf(this.questionService.countByWorkgroup(workgroup) + 1);
     }
 	
 	@RequestMapping(value = "/{questionId}", method = RequestMethod.GET)

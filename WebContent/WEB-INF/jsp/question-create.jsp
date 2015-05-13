@@ -127,6 +127,11 @@ var __rowCount = 0;
 
 $(document).ready(function() {
 
+	countQuestionNumber($('#workgroup').val())
+	$('#workgroup').change(function(){
+		countQuestionNumber($(this).val());
+	});
+	
 	questionType[$('#questionType').val()]();
 	$('#questionType').change(function(){
 		__rowCount = 0;
@@ -195,6 +200,21 @@ $(document).ready(function() {
 	});
 	
 });
+
+function countQuestionNumber(workgroup){
+	$.ajax({
+	    url: '${pageContext.request.contextPath}/questions/count/' + workgroup,
+	    type: "GET",
+	    contentType: "text",
+	    cache: false,
+	    success: function(questionNumber) {
+			$('#questionNumber').val(questionNumber);
+	    },
+	    error: function(jqXHR, textStatus, errorThrown) {
+	    	alert(this.url + '\njqXHR status : ' + jqXHR.status + '\ntextStatus : ' + textStatus + '\nThrown : ' + errorThrown);
+	    }
+	});
+}
 
 function errMsgLabel(errMsg, el) {
     var errMsgTemplate = '<div class="alert alert-danger alert-error">';

@@ -10,5 +10,5 @@ import th.mu.rama.ped.model.entity.Question;
  *
  */
 public interface QuestionDAO extends GenericDAO<Question> {
-
+	Integer countByWorkgroup(String workgroup);
 }

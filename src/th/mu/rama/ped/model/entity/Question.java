@@ -4,6 +4,8 @@
 package th.mu.rama.ped.model.entity;
 
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -139,6 +141,13 @@ public class Question implements Serializable {
 	}
 
 	public List<Choice> getChoices() {
+		
+		Collections.sort(choices, new Comparator<Choice>() {
+		    public int compare(Choice c1, Choice c2) {
+		    	return c1.getChoiceNumber() - c2.getChoiceNumber();
+		    }
+		});
+		
 		return choices;
 	}
 

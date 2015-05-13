@@ -9,9 +9,11 @@
 <meta name="author" content="Sirimongkol Panwa, RAMA">
 <link rel="icon" type="image/png" sizes="96x96" href="${pageContext.request.contextPath}/resources/images/favicon-96x96.png">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/bootstrap/css/bootstrap-select.min.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/Font-Awesome/css/font-awesome.css">
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/bootstrap/css/bootstrap-select.min.css">
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/bootstrap/css/bootstrap-timepicker.min.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/build.css">
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/prettify.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/sticky-footer-navbar.css">
 <style type="text/css">
 .col-sm-6{border:1px dashed #ddd}
@@ -30,6 +32,52 @@
 <!-- <div class="container-fluid"> -->
 <div class="container">
 <div class="row">
+	<div class="panel panel-success">
+	    <div class="panel-heading">
+	        <h3 class="panel-title">บันทึกข้อมูลอัตโนมัติ</h3>
+	    </div>
+	    <div class="panel-body">
+	 	 The server successfully processed the request.
+	    </div>
+	</div>
+	<div class="col-sm-6 col-md-4">
+	    <div class="row">
+	        <div class="col-xs-4">
+				<div class="form-group">
+			   		<label for="mrn" class="control-label">HN</label>
+			       	<input type="text" class="form-control" id="mrn" placeholder="HN">
+				</div>
+	        </div>
+	        <div class="col-xs-8">
+				<div class="form-group">
+			   		<label for="name" class="control-label">Name</label>
+			       	<input type="text" class="form-control" id="name" placeholder="Name">
+				</div>      
+	        </div>
+<!-- 	        <div class="col-xs-12"> -->
+<!-- 				<div class="form-group"> -->
+<!-- 			   		<label for="name" class="control-label">Name</label> -->
+<!-- 			       	<input type="text" class="form-control" id="name" placeholder="Name"> -->
+<!-- 				</div> -->
+<!-- 	        </div> -->
+	    </div>
+	</div> 
+	<div class="col-sm-6 col-md-4">
+	    <div class="row">
+	        <div class="col-xs-6">
+	       		<div class="form-group">
+			   		<label for="DOB" class="control-label">DOB</label>
+			       	<input type="text" class="form-control" id="DOB" placeholder="DOB">
+				</div>        
+	        </div>
+	     	<div class="col-xs-6">
+				<div class="form-group">
+			   		<label for="TOB" class="control-label">Time of birth</label>
+			       	<input type="text" class="form-control" id="TOB" placeholder="Time of birth">
+				</div>
+	        </div>
+	    </div>
+	</div>   
 	<c:forEach items="${questions}" var="question">
 		<c:if test="${question.status == 'active'}">
 			<c:choose>
@@ -58,7 +106,7 @@
 					<b>${question.questionTitle }</b> 
 					<p>		
 					<c:forEach items="${question.choices}" var="choice">		
-					<div id="radio_${question.id }_${choice.id}" class="radio radio-inline">                           
+					<div id="radio_${question.id }_${choice.id}" class="radio radio-inline radio-primary">                           
 	                    <input type="radio" name="radio_${question.id }" id="${question.id }_${choice.id}">
 	                    <label for="${question.id }_${choice.id}">
 	                       (${choice.choiceNumber })&nbsp;${choice.choiceTitle }
@@ -76,7 +124,7 @@
 					<b>${question.questionTitle }</b>
 					<p>
 					<c:forEach items="${question.choices}" var="choice">
-						<div class="checkbox checkbox-inline">
+						<div class="checkbox checkbox-inline checkbox-info">
 						    <input type="checkbox" id="${question.id }_${choice.id}">
 						    <label for="${question.id }_${choice.id}">
 						        (${choice.choiceNumber })&nbsp;${choice.choiceTitle }
@@ -109,6 +157,17 @@
 </div>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jquery-1.8.3.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/prettify.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/bootstrap/js/bootstrap-select.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/bootstrap/js/bootstrap-timepicker.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#TOB').timepicker({
+        template: false,
+        showInputs: false,
+        minuteStep: 5
+    });
+});
+</script>
 </body>
 </html>

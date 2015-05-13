@@ -17,9 +17,18 @@ import th.mu.rama.ped.model.entity.Question;
 public class QuestionServiceImpl extends GenericServiceImpl<Question> implements
 		QuestionService {
 
+	
 	@Autowired
 	public QuestionServiceImpl(QuestionDAO genericDAO) {
 		super(genericDAO);
+	}
+	
+	@Autowired
+	QuestionDAO questionDAO;
+
+	@Override
+	public Integer countByWorkgroup(String workgroup) {
+		return questionDAO.countByWorkgroup(workgroup);
 	}
 
 }

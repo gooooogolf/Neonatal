@@ -15,5 +15,11 @@ import th.mu.rama.ped.model.entity.Question;
 public class QuestionDAOImpl extends GenericDAOImpl<Question> implements
 		QuestionDAO {
 
+	@Override
+	public Integer countByWorkgroup(String workgroup) {
+		String hql = "from Question q where q.workgroup = '" + workgroup + "' and q.status = 'active'";
+		return sessionFactory.getCurrentSession().createQuery(hql).list().size();
+	}
+
 	
 }
