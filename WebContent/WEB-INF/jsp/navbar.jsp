@@ -26,6 +26,7 @@
 					<a href="#" data-toggle="dropdown" class="dropdown-toggle">จัดการข้อมูล <b class="caret"></b></a>
 <%-- 					<a href="${pageContext.request.contextPath}/questions">จัดการข้อมูล</a> --%>
 					<ul class="dropdown-menu">
+<%-- 						<li><a href="${pageContext.request.contextPath}/groups">กลุ่มแบบสอบถาม</a></li> --%>
 		                <li><a href="${pageContext.request.contextPath}/questions/new">สร้างแบบสอบถาม</a></li>
 		                <li><a href="${pageContext.request.contextPath}/questions">อัพเดตข้อมูล</a></li>
 		            </ul>
