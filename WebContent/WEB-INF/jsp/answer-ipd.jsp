@@ -24,6 +24,7 @@
 	background-color: transparent;
 	outline:none;
 }
+/* .selectpicker {} */
 </style>
 <title>Neonatal Data</title>
 </head>
@@ -31,6 +32,7 @@
 <jsp:include page="navbar.jsp"></jsp:include>
 <!-- <div class="container-fluid"> -->
 <div class="container">
+<!-- <form> -->
 <div class="row">
 	<div class="panel panel-success">
 	    <div class="panel-heading">
@@ -107,12 +109,12 @@
 					<p>		
 					<c:forEach items="${question.choices}" var="choice">		
 					<div id="radio_${question.id }_${choice.id}" class="radio radio-inline radio-primary">                           
-	                    <input type="radio" name="radio_${question.id }" id="${question.id }_${choice.id}">
+	                    <input type="radio" name="radio_${question.id }" id="${question.id }_${choice.id}" value="${choice.choiceTitle }">
 	                    <label for="${question.id }_${choice.id}">
 	                       (${choice.choiceNumber })&nbsp;${choice.choiceTitle }
 	                    </label> 
 	                    <c:if test="${choice.choiceText}">
-						 <input type="text" class="text-underline">
+						 	<input type="text" id="choiceText_${question.id }_${choice.id}" class="text-underline">
 						</c:if>
                      </div>                           
 					</c:forEach>	
@@ -124,13 +126,13 @@
 					<b>${question.questionTitle }</b>
 					<p>
 					<c:forEach items="${question.choices}" var="choice">
-						<div class="checkbox checkbox-inline checkbox-info">
-						    <input type="checkbox" id="${question.id }_${choice.id}">
+						<div class="checkbox checkbox-inline checkbox-info">	
+							<input type="checkbox" id="${question.id }_${choice.id}" value="${choice.choiceTitle }">					    
 						    <label for="${question.id }_${choice.id}">
 						        (${choice.choiceNumber })&nbsp;${choice.choiceTitle }
 						    </label>
 						    <c:if test="${choice.choiceText}">
-						    	<input type="text" class="text-underline">
+								<input type="text" id="choiceText_${question.id }_${choice.id}" class="text-underline">
 						    </c:if>
 					    </div>
 					    <br>
@@ -141,8 +143,8 @@
 				<c:otherwise>
 					<div class="col-sm-6 col-md-4">				
 						<div class="form-group">
-						<label for="select_${question.id }_${choice.id}" class="control-label">${question.questionTitle }&nbsp;</label>
-						<select class="selectpicker form-control" id="select_${question.id }_${choice.id}">
+						<label for="select_${question.id }" class="control-label">${question.questionTitle }&nbsp;</label>
+						<select class="selectpicker form-control" id="select_${question.id }">
 							<c:forEach items="${question.choices}" var="choice">
 							 	<option value="${choice.id }">(${choice.choiceNumber })&nbsp;${choice.choiceTitle }</option>
 							</c:forEach>
@@ -154,20 +156,172 @@
 		</c:if>
 	</c:forEach>
 </div>
+<button type="button" class="btn btn-success" id="get">ดึงข้อมูล</button>&nbsp;&nbsp;<button type="submit" class="btn btn-primary" id="submit">บันทึก</button>
+<!-- </form> -->
 </div>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jquery-1.8.3.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/dateUtil.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/bootstrap/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/prettify.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/bootstrap/js/bootstrap-select.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/bootstrap/js/bootstrap-timepicker.js"></script>
 <script type="text/javascript">
+var __staffId = 'Test';
 $(document).ready(function() {
+	
     $('#TOB').timepicker({
         template: false,
         showInputs: false,
         minuteStep: 5
+    });    
+    
+    $('#submit').click(autoSave);
+    $('#get').click(function() {
+    	getAnswers($('#mrn').val(), 'IPD');    	
+    });
+    $('#mrn').keypress(function(e) {
+    	var mrn = $(this).val();
+        if(e.which == 13) {
+        	getAnswers(mrn, 'IPD');
+        }
     });
 });
+
+function autoSave() {
+	var mrn = $('#mrn').val();
+	var answers = [];
+	var questions = JSON.parse('${JSONArray_questions}');
+	if (mrn) {
+		if (questions) {
+			for (var i = 0; i < questions.length; i++) {
+				var question = questions[i];
+				if (question.status == 'active') {
+					var choices = question.choices;
+					if (question.questionType == 'textBox' || question.questionType == 'textAreaBox') {
+						if (choices) {
+							for (var j = 0; j < choices.length; j++) {
+								var choice = choices[j] ;
+								var answer = {}; 
+								var isAnswer = $('#' + question.id + '_' + choice.id).val();
+								if (isAnswer) {
+									answer.staffId = __staffId;
+									answer.workgroup = 'IPD';
+									answer.mrn = mrn;
+									answer.questionType = question.questionType;
+									answer.questionId = question.id;
+									answer.choiceId = choice.id;
+									answer.answerText = $('#' + question.id + '_' + choice.id).val();
+									answer.answerVar = choice.choiceVar;
+									answers.push(answer);
+// 									console.log(answer);
+								}
+							}
+						}
+					}
+					else if (question.questionType == 'radioBox' || question.questionType == 'checkBox') {
+						if (choices) {
+							for (var j = 0; j < choices.length; j++) {
+								var choice = choices[j] ;
+								var answer = {}; 
+								var isAnswer = $('#' + question.id + '_' + choice.id).is(':checked');
+								if (isAnswer) {
+									answer.staffId = __staffId;
+									answer.workgroup = 'IPD';
+									answer.mrn = mrn;
+									answer.questionType = question.questionType;
+									answer.questionId = question.id;
+									answer.choiceId = choice.id;
+									answer.answerText = (choice.choiceText) ? $('#choiceText_' + question.id + '_' + choice.id).val() : '';
+									answer.answerVar = choice.choiceVar;
+									answers.push(answer);
+// 									console.log(answer);
+								}
+							}
+						}
+					}
+					else {
+						if (choices) {
+							var answer = {}; 
+							answer.staffId = __staffId;
+							answer.workgroup = 'IPD';
+							answer.mrn = mrn;
+							answer.questionType = question.questionType;
+							answer.questionId = question.id;
+							answer.choiceId = $('#select_' + question.id).val();
+							for (var j = 0; j < choices.length; j++) {
+								var choice = choices[j] ;
+								if (choice.id == answer.choiceId) {
+									answer.answerVar = choice.choiceVar;
+									answer.answerText = choice.choiceTitle;
+								}
+							}
+							answers.push(answer);
+						}
+					}
+				}
+			}
+		}
+		$.ajax({
+		    url: '${pageContext.request.contextPath}/answer/save',
+		    data: JSON.stringify(answers),
+		    type: "POST",
+		    dataType:"json",
+		    contentType: "application/json",
+		    cache: false,
+		    success: function(retQuestion) {
+		    	$('.panel-body').text('Last Update ' + new Date());
+		    },
+    	    error: function(jqXHR, textStatus, errorThrown) {
+    	    	$('.panel-body').text(this.url + '\njqXHR status : ' + jqXHR.status + '\ntextStatus : ' + textStatus + '\nThrown : ' + errorThrown);
+    	    }
+		});	
+	}
+}
+
+function getAnswers(mrn, workgroup) {
+	$.ajax({
+	    url: '${pageContext.request.contextPath}/answer/getAnswers',
+	    data: "mrn=" + mrn + "&workgroup=" + workgroup,
+	    type: "GET",
+	    dataType:"json",
+	    contentType: "application/json",
+	    cache: false,
+	    success: function(answers) {
+	    	$('.panel-body').text('Last Update ' + new Date());
+	    	if (answers) {
+	    		var answer = null;
+	    		for (var i = 0; i < answers.length; i++) {
+	    			answer = answers[i];
+	    			if (answer.status == 'active') {
+		    			if (answer.questionType == 'textBox' || answer.questionType == 'textAreaBox') {
+		    				$('#' + answer.questionId + '_' + answer.choiceId).val(answer.answerText);
+		    			}
+		    			else if (answer.questionType == 'radioBox' || answer.questionType == 'checkBox') {
+		    				$('#' + answer.questionId + '_' + answer.choiceId).attr('checked', true);
+		    				if (answer.answerText) {
+		    					$('#choiceText_' + answer.questionId + '_' + answer.choiceId).val(answer.answerText);
+		    				}
+		    			}
+		    			else {
+// 		    				$('#select_' + answer.questionId).val(answer.choiceId);
+		    				$('#select_' + answer.questionId).selectpicker('val', answer.choiceId);
+		    			}
+	    			}
+	    		}
+	    	}
+	    	else {
+	    		$(':input').not(':button, :submit, :reset, :hidden, :checkbox, :radio').val('');
+				$(':checkbox, :radio').prop('checked', false);
+				$('.selectpicker').selectpicker('val', 0);
+	    	}
+
+	    },
+	    error: function(jqXHR, textStatus, errorThrown) {
+	    	$('.panel-body').text(this.url + '\njqXHR status : ' + jqXHR.status + '\ntextStatus : ' + textStatus + '\nThrown : ' + errorThrown);
+	    }
+	});	
+}
+
 </script>
 </body>
 </html>

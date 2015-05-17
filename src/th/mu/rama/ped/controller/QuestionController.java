@@ -6,6 +6,7 @@ package th.mu.rama.ped.controller;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import th.mu.rama.ped.model.entity.Choice;
 import th.mu.rama.ped.model.entity.Question;
 import th.mu.rama.ped.model.service.QuestionService;
+import th.mu.rama.ped.util.DateTime;
 
 /**
  * @author Sirimongkol
@@ -102,6 +104,7 @@ public class QuestionController {
     @ResponseBody
     public Question saveQuestionWithAjax(@RequestBody String questionJSON) {
 		Question question = new Question();
+		Date effectiveDate = DateTime.stringtoDate(DateTime.dateNow_ddMMyyyy() + " " + DateTime.timeNow(), "dd/MM/yyyy HH:mm:ss");
 //		System.out.println(questionJSON);
 		JSONObject qjson = JSONObject.fromObject(questionJSON);
 		question.setWorkgroup(qjson.getString("workgroup"));
@@ -124,6 +127,7 @@ public class QuestionController {
 				choice.setChoiceVar(cjson.getString("choiceVar"));
 //				choice.setStatus(cjson.getString("status"));
 				choice.setStatus("active");
+				choice.setEffectiveDate(effectiveDate);
 				choices.add(choice);
 			}
 			question.setChoices(choices);
@@ -136,8 +140,8 @@ public class QuestionController {
 	@RequestMapping(value = "/update", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     @ResponseBody
     public Question updateQuestionWithAjax(@RequestBody String questionJSON) {
+		Date effectiveDate = DateTime.stringtoDate(DateTime.dateNow_ddMMyyyy() + " " + DateTime.timeNow(), "dd/MM/yyyy HH:mm:ss");
 		Question question = new Question();
-		System.out.println(questionJSON);
 		JSONObject qjson = JSONObject.fromObject(questionJSON);
 		question.setId(qjson.getInt("id"));
 		question.setWorkgroup(qjson.getString("workgroup"));
@@ -146,6 +150,7 @@ public class QuestionController {
 		question.setHelpText(qjson.getString("helpText"));
 		question.setQuestionType(qjson.getString("questionType"));
 		question.setStatus("active");
+		question.setEffectiveDate(effectiveDate);
 		JSONArray cjarray = JSONArray.fromObject(qjson.getString("choices"));
 		if (cjarray.isArray()) {
 			List<Choice> choices = new ArrayList<Choice>();
@@ -160,6 +165,7 @@ public class QuestionController {
 				choice.setChoiceTitle(cjson.getString("choiceTitle"));
 				choice.setChoiceVar(cjson.getString("choiceVar"));
 				choice.setStatus(cjson.getString("status"));
+				choice.setEffectiveDate(effectiveDate);
 				choices.add(choice);
 			}
 			question.setChoices(choices);

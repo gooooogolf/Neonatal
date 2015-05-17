@@ -6,6 +6,7 @@ package th.mu.rama.ped.model.entity;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -52,10 +53,13 @@ public class Question implements Serializable {
 	@Column(name = "QUESTION_STATUS")
 	private String status;
 	
+	@Column(name = "QUESTION_EFFECTIVE_DATE")
+	private Date effectiveDate;
+	
 	@ManyToMany(cascade = CascadeType.ALL)
 	@Column(name = "CHOICES") 
 	private List<Choice> choices;
-	
+
 	public Question() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -63,7 +67,7 @@ public class Question implements Serializable {
 
 	public Question(int id, String workgroup, int questionNumber,
 			String questionTitle, String helpText, String questionType,
-			String status, List<Choice> choices) {
+			String status, Date effectiveDate, List<Choice> choices) {
 		super();
 		this.id = id;
 		this.workgroup = workgroup;
@@ -72,6 +76,7 @@ public class Question implements Serializable {
 		this.helpText = helpText;
 		this.questionType = questionType;
 		this.status = status;
+		this.effectiveDate = effectiveDate;
 		this.choices = choices;
 	}
 
@@ -80,8 +85,8 @@ public class Question implements Serializable {
 		return "Question [id=" + id + ", workgroup=" + workgroup
 				+ ", questionNumber=" + questionNumber + ", questionTitle="
 				+ questionTitle + ", helpText=" + helpText + ", questionType="
-				+ questionType + ", status=" + status + ", choices=" + choices
-				+ "]";
+				+ questionType + ", status=" + status + ", effectiveDate="
+				+ effectiveDate + ", choices=" + choices + "]";
 	}
 
 	public int getId() {
@@ -140,6 +145,14 @@ public class Question implements Serializable {
 		this.status = status;
 	}
 
+	public Date getEffectiveDate() {
+		return effectiveDate;
+	}
+
+	public void setEffectiveDate(Date effectiveDate) {
+		this.effectiveDate = effectiveDate;
+	}
+
 	public List<Choice> getChoices() {
 		
 		Collections.sort(choices, new Comparator<Choice>() {
@@ -158,6 +171,9 @@ public class Question implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+	
+
+	
 	
 	
 }

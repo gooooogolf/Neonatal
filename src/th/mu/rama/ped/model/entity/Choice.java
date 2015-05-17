@@ -4,6 +4,7 @@
 package th.mu.rama.ped.model.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -43,13 +44,17 @@ public class Choice implements Serializable {
 	@Column(name = "CHOICE_STATUS")
 	private String status;
 	
+	@Column(name = "CHOICE_EFFECTIVE_DATE")
+	private Date effectiveDate;
+
 	public Choice() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
 	public Choice(int id, int choiceNumber, String choiceTitle,
-			boolean isChoiceText, String choiceVar, String status) {
+			boolean isChoiceText, String choiceVar, String status,
+			Date effectiveDate) {
 		super();
 		this.id = id;
 		this.choiceNumber = choiceNumber;
@@ -57,6 +62,7 @@ public class Choice implements Serializable {
 		this.isChoiceText = isChoiceText;
 		this.choiceVar = choiceVar;
 		this.status = status;
+		this.effectiveDate = effectiveDate;
 	}
 
 	@Override
@@ -64,7 +70,7 @@ public class Choice implements Serializable {
 		return "Choice [id=" + id + ", choiceNumber=" + choiceNumber
 				+ ", choiceTitle=" + choiceTitle + ", isChoiceText="
 				+ isChoiceText + ", choiceVar=" + choiceVar + ", status="
-				+ status + "]";
+				+ status + ", effectiveDate=" + effectiveDate + "]";
 	}
 
 	public int getId() {
@@ -115,9 +121,18 @@ public class Choice implements Serializable {
 		this.status = status;
 	}
 
+	public Date getEffectiveDate() {
+		return effectiveDate;
+	}
+
+	public void setEffectiveDate(Date effectiveDate) {
+		this.effectiveDate = effectiveDate;
+	}
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+	
 	
 	
 }

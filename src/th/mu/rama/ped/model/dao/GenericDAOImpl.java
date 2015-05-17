@@ -76,5 +76,6 @@ public class GenericDAOImpl<Clazz> implements GenericDAO<Clazz> {
 		sessionFactory.getCurrentSession().saveOrUpdate(clazz);
 		
 	}
+	
 
 }
