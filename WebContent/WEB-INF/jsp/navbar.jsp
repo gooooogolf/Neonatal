@@ -8,7 +8,8 @@
 /*     background-color: #e74c3c; */
 }
 </style>
-<div id="menu" class="navbar navbar-default navbar-fixed-top navbar-custom">
+<div id="menu" class="navbar navbar-default navbar-fixed-top">
+<!-- <div id="menu" class="navbar navbar-default navbar-fixed-top navbar-custom"> -->
 	<div class="container">
 	   <div class="navbar-header">
    		<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
