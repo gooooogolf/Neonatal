@@ -17,7 +17,8 @@ public class HomeController {
 	@RequestMapping(value={"/", "/index"}, method = RequestMethod.GET)
     public String home() {
 //        return "redirect:/questions";
-		return "login";
+//		return "login";
+		return "redirect:/answer/ipd";
     }
     
 }

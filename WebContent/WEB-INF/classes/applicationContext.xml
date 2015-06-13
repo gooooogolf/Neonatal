@@ -85,4 +85,26 @@
 	<bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>  
+	<security:http pattern="/resources/**" security="none" />
+
+	<security:http auto-config="false" disable-url-rewriting="true" use-expressions="true" entry-point-ref="authenticationEntryPoint">
+			<!-- enable csrf protection -->
+<!-- 		<security:csrf/> -->
+		<security:intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"/>
+		<security:intercept-url pattern="/login*" access="permitAll" />	
+		<security:intercept-url pattern="/**" access="isAuthenticated()" />			
+		<security:logout invalidate-session="true" logout-success-url="/login" />
+		<security:custom-filter ref="authenticationFilter" position="FORM_LOGIN_FILTER"/>
+	</security:http>
+	
+	<bean id="authenticationFilter" class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter"
+			p:authenticationManager-ref="customAuthenticationManager"
+			p:authenticationSuccessHandler-ref="customAuthenticationSuccessHandler"
+			p:authenticationFailureHandler-ref="customAuthenticationFailureHandler"/>
+
+	<bean id="authenticationEntryPoint" class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint" p:loginFormUrl="/login"/>
+	<bean id="customAuthenticationManager" class="th.mu.rama.ped.security.CustomAuthenticationManager" />
+	<bean id="customAuthenticationSuccessHandler" class="th.mu.rama.ped.security.CustomAuthenticationSuccessHandler"/>
+	<bean id="customAuthenticationFailureHandler" class="th.mu.rama.ped.security.CustomAuthenticationFailureHandler"/>			
+	<security:authentication-manager/>
 </beans>
