@@ -74,6 +74,7 @@
 	</form>
 </div>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jquery-1.8.3.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/respond.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/bootstrap/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/bootstrap/js/bootstrap-select.js"></script>
 <script type="text/javascript">
