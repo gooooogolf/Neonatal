@@ -40,7 +40,7 @@ public class LoginController {
 	public String accessdenied(Principal user, Model model) {
 		
 		if (user != null) {
-			model.addAttribute("msg", "ขออภัย...คุณ" + userService.get(user.getName()).getDescription() 
+			model.addAttribute("msg", "ขออภัย...คุณ" + user.getName() 
 			+ ", คุณไม่ได้รับสิทธิ์เข้าใช้งานหน้านี้!");
 		} else {
 			model.addAttribute("msg", "คุณไม่ได้รับสิทธิ์เข้าใช้งานหน้านี้!");

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <style type="text/css">
 .navbar-custom {
      color: #FFFFFF; 
@@ -43,7 +44,7 @@
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 		        <li class="dropdown">
-		            <a href="#" data-toggle="dropdown" class="dropdown-toggle">ผู้ใช้งานทั่วไป<b class="caret"></b></a>
+		            <a href="#" data-toggle="dropdown" class="dropdown-toggle">${not empty pageContext.request.userPrincipal ? pageContext.request.userPrincipal.name : 'ผู้ใช้งานทั่วไป'} <b class="caret"></b></a>
 		            <ul class="dropdown-menu">
 		                <li><a href="${pageContext.request.contextPath}/j_spring_security_logout">ออกจากระบบ</a></li>
 		            </ul>

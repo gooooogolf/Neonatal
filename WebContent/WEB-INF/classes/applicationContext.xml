@@ -90,11 +90,12 @@
 	<security:http auto-config="false" disable-url-rewriting="true" use-expressions="true" entry-point-ref="authenticationEntryPoint">
 			<!-- enable csrf protection -->
 <!-- 		<security:csrf/> -->
-		<security:intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"/>
+		<security:intercept-url pattern="/questions/**" access="hasRole('ROLE_ADMIN')"/>
 		<security:intercept-url pattern="/login*" access="permitAll" />	
 		<security:intercept-url pattern="/**" access="isAuthenticated()" />			
 		<security:logout invalidate-session="true" logout-success-url="/login" />
 		<security:custom-filter ref="authenticationFilter" position="FORM_LOGIN_FILTER"/>
+		<security:access-denied-handler error-page="/403" />
 	</security:http>
 	
 	<bean id="authenticationFilter" class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter"
