@@ -8,73 +8,131 @@
 <meta name="author" content="Sirimongkol Panwa, RAMA">
 <link rel="icon" type="image/png" sizes="96x96" href="${pageContext.request.contextPath}/resources/images/favicon-96x96.png">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/bootstrap/css/bootstrap-select.min.css">
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/sticky-footer-navbar.css">
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/sb-admin-2.css">
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/bootstrap-select.css">
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/Font-Awesome/css/font-awesome.css">
 <title>Neonatal Data</title>
 </head>
 <body>
-<jsp:include page="navbar.jsp"></jsp:include>
-<div class="container">
-<!-- 	<div class="page-header"> -->
-<!-- 	   <h1>จัดการข้อมูล</h1> -->
-<!-- 	</div> -->
-    <div id="errMsg"></div>
-	<form class="form-horizontal" action="javascript:void(0)">	
-	<div class="form-group">
-		<label class="control-label col-sm-2" for="workgroup">รูปแบบ</label> 
-		<div class="col-sm-10">
-			<select class="selectpicker" id="workgroup">
-			    <option selected="selected" value="IPD">IPD</option>
-			    <option value="OPD">OPD</option>
-		  	</select>
+<div id="wrapper">
+<div class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+	   <div class="navbar-header">
+   		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+   		    <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+      	</button>
+	   <a class="navbar-brand" href="${pageContext.request.contextPath}">Neonatal Data</a>
+	   </div>
+		<div id="navbar" class="collapse navbar-collapse">
+		<ul class="nav navbar-nav">
+			<li><a href="${pageContext.request.contextPath}/questions">จัดการข้อมูล </a></li>
+			<li class="dropdown">
+	            <a href="#" data-toggle="dropdown" class="dropdown-toggle">บันทึกข้อมูล <b class="caret"></b></a>
+	            <ul class="dropdown-menu">
+	                <li><a href="${pageContext.request.contextPath}/answer/ipd">IPD</a></li>
+	                <li><a href="${pageContext.request.contextPath}/answer/opd">OPD</a></li>
+	            </ul>
+		    </li>
+		    <li><a href="${pageContext.request.contextPath}">รายงาน</a></li>
+		</ul>
+		<ul class="nav navbar-top-links navbar-right">
+	        <li class="dropdown">
+	            <a href="#" data-toggle="dropdown" class="dropdown-toggle">${not empty pageContext.request.userPrincipal ? pageContext.request.userPrincipal.name : 'ผู้ใช้งานทั่วไป'} <b class="caret"></b></a>
+	            <ul class="dropdown-menu">
+	                <li><a href="${pageContext.request.contextPath}/j_spring_security_logout">ออกจากระบบ</a></li>
+	            </ul>
+	        </li>
+		</ul>
+		<div class="navbar-default sidebar" role="navigation">
+			<div class="sidebar-nav navbar-collapse">
+			    <ul class="nav" id="side-menu">
+			   	 	<li><a href="${pageContext.request.contextPath}/questions">รายการคำถาม</a></li>
+					<li><a href="${pageContext.request.contextPath}/questions/new" class="active">สร้างแบบสอบถาม <span class="sr-only">(current)</span></a></li>
+				</ul>
+			</div>
 		</div>
-	</div>	
-	<div class="form-group">
-		<label class="control-label col-sm-2" for="questionNumber">ลำดับ</label> 
-		<div class="col-sm-1">
-			<input class="form-control" name="questionNumber" id="questionNumber"/>
 		</div>
-	</div>
-	<div class="form-group">
-		<label class="control-label col-sm-2" for="questionTitle">หัวข้อคำถาม</label> 
-		<div class="col-sm-10">
-			<input class="form-control" name="questionTitle" id="questionTitle"/>
-		</div>
-	</div>
-	<div class="form-group">
-		<label class="control-label col-sm-2" for="helpText">ข้อความช่วยเหลือ</label> 
-		<div class="col-sm-10">
-			<input class="form-control" name="helpText" id="helpText"/>
-		</div>
-	</div>
-	<div class="form-group">
-		<label class="control-label col-sm-2" for="questionType">ประเภทคำถาม</label> 
-		<div class="col-sm-10">
-			<select id="questionType" class="selectpicker">
-			    <option selected="selected" value="textBox">ข้อความ</option>
-			    <option value="textAreaBox">ข้อความย่อหน้า (ยาว)</option>
-			    <option value="radioBox">หลายตัวเลือก (เลือกตอบได้ 1 คำตอบ)</option>
-			    <option value="checkBox">หลายตัวเลือก (เลือกตอบได้หลายคำตอบ)</option>
-			    <option value="selectBox">หลายรายการ</option>
-		  	</select>
-		</div>
-	</div>
-	<div class="form-group">
-		<label class="control-label col-sm-2" for="choice"></label> 
-		<div id="choice" class="col-sm-10"></div>
-	</div>
-	<div class="form-group">        
-          <div class="col-sm-offset-2 col-sm-10">
-          	<button type="submit" class="btn btn-primary" id="submit">บันทึก</button>
-          	<button type="reset" class="btn btn-danger">ยกเลิก</button>
-          </div>
-	</div>
-	</form>
 </div>
+<div id="page-wrapper">
+	<div class="row">
+		<div class="col-lg-12">
+			<h3 class="page-header">สร้างแบบสอบถาม</h3>
+		</div>
+	</div>
+  	<div class="row">
+   	<div class="col-lg-12">
+		<div class="panel panel-default">
+	    <div class="panel-heading">กรอกข้อมูลเพื่อสร้างแบบสอบถาม</div>
+		<div class="panel-body">
+			<div class="row">
+		        <div class="col-lg-12">
+				<!--     	<div id="errMsg"></div>  -->
+					<form class="form-horizontal" action="javascript:void(0)">	
+					<div class="form-group">
+						<label class="control-label col-md-2" for="workgroup">รูปแบบ</label> 
+						<div class="col-md-10">
+							<select class="selectpicker" id="workgroup">
+							    <option selected="selected" value="IPD">IPD</option>
+							    <option value="OPD">OPD</option>
+						  	</select>
+						</div>
+					</div>	
+					<div class="form-group">
+						<label class="control-label col-md-2" for="questionNumber">ลำดับ</label> 
+						<div class="col-md-2">
+							<input class="form-control" name="questionNumber" id="questionNumber"/>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-md-2" for="questionTitle">หัวข้อคำถาม</label> 
+						<div class="col-md-10">
+							<input class="form-control" name="questionTitle" id="questionTitle"/>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-md-2" for="helpText">ข้อความช่วยเหลือ</label> 
+						<div class="col-md-10">
+							<input class="form-control" name="helpText" id="helpText"/>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-md-2" for="questionType">ประเภทคำถาม</label> 
+						<div class="col-md-10">
+							<select id="questionType" class="selectpicker">
+							    <option selected="selected" value="textBox">ข้อความ</option>
+							    <option value="textAreaBox">ข้อความย่อหน้า (ยาว)</option>
+							    <option value="radioBox">หลายตัวเลือก (เลือกตอบได้ 1 คำตอบ)</option>
+							    <option value="checkBox">หลายตัวเลือก (เลือกตอบได้หลายคำตอบ)</option>
+							    <option value="selectBox">หลายรายการ</option>
+						  	</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-md-2" for="choice"></label> 
+						<div id="choice" class="col-md-10"></div>
+					</div>
+					<div class="form-group">        
+				         <div class="col-md-offset-2 col-md-10">
+				         	<button type="button" class="btn btn-primary" id="submit">บันทึก</button>
+				         	<button type="reset" class="btn btn-danger">ยกเลิก</button>
+				         </div>
+					</div>
+					</form>
+				</div>
+	        </div>	    		                
+		</div>
+		</div>	    	
+   	</div>
+</div>
+</div>
+</div>
+
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jquery-1.8.3.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/respond.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/bootstrap/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/resources/bootstrap/js/bootstrap-select.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/bootstrap-select.js"></script>
 <script type="text/javascript">
 var __rowTemplate;
 
@@ -109,25 +167,25 @@ __rowTemplate += '<td><button type="button" class="btn btn-danger" id="btnChoice
 __rowTemplate += '</tr>'
 
 var __txtBoxTemplate = ''
-__txtBoxTemplate += '<div class="form-group"><div class="col-sm-10">';
+__txtBoxTemplate += '<div class="form-group"><div class="col-md-10">';
 __txtBoxTemplate += '<input class="form-control" type="hidden" id="choiceTitle_{rowId}"/><input class="form-control" name="isChoiceText_{rowId}" id="isChoiceText_{rowId}" placeholder="ข้อความ"/>';
 __txtBoxTemplate += '</div>';
-__txtBoxTemplate += '<div class="col-sm-2">';
+__txtBoxTemplate += '<div class="col-md-2">';
 __txtBoxTemplate += '<input class="form-control" name="choiceVar_{rowId}" id="choiceVar_{rowId}" placeholder="ตัวแปร"/>';
 __txtBoxTemplate += '</div></div>';
 
 var __txtAreaTemplate = ''
-	__txtAreaTemplate += '<div class="form-group"><div class="col-sm-10">';
+	__txtAreaTemplate += '<div class="form-group"><div class="col-md-10">';
 	__txtAreaTemplate += '<input class="form-control" type="hidden" id="choiceTitle_{rowId}"/><textarea class="form-control" name="isChoiceText_{rowId}" id="isChoiceText_{rowId}" rows="5" placeholder="ข้อความ"></textarea>';
 	__txtAreaTemplate += '</div>';
-	__txtAreaTemplate += '<div class="col-sm-2">';
+	__txtAreaTemplate += '<div class="col-md-2">';
 	__txtAreaTemplate += '<input class="form-control" name="choiceVar_{rowId}" id="choiceVar_{rowId}" placeholder="ตัวแปร"/>';
 	__txtAreaTemplate += '</div></div>';
 
 var __rowCount = 0;
 
 $(document).ready(function() {
-
+	$('.selectpicker').selectpicker();
 	countQuestionNumber($('#workgroup').val())
 	$('#workgroup').change(function(){
 		countQuestionNumber($(this).val());

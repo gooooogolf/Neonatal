@@ -11,7 +11,7 @@
 </style>
 <div id="menu" class="navbar navbar-default navbar-fixed-top">
 <!-- <div id="menu" class="navbar navbar-default navbar-fixed-top navbar-custom"> -->
-	<div class="container">
+<!-- 	<div class="container"> -->
 	   <div class="navbar-header">
    		<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
             <span class="sr-only">Toggle navigation</span>
@@ -24,15 +24,7 @@
 	   	<div>
 			<div id="navbar" class="collapse navbar-collapse">
 			<ul class="nav navbar-nav">
-				<li class="dropdown">
-					<a href="#" data-toggle="dropdown" class="dropdown-toggle">จัดการข้อมูล <b class="caret"></b></a>
-<%-- 					<a href="${pageContext.request.contextPath}/questions">จัดการข้อมูล</a> --%>
-					<ul class="dropdown-menu">
-<%-- 						<li><a href="${pageContext.request.contextPath}/groups">กลุ่มแบบสอบถาม</a></li> --%>
-		                <li><a href="${pageContext.request.contextPath}/questions/new">สร้างแบบสอบถาม</a></li>
-		                <li><a href="${pageContext.request.contextPath}/questions">อัพเดตข้อมูล</a></li>
-		            </ul>
-				</li>
+				<li><a href="${pageContext.request.contextPath}/questions">จัดการข้อมูล </a></li>
 				<li class="dropdown">
 		            <a href="#" data-toggle="dropdown" class="dropdown-toggle">บันทึกข้อมูล <b class="caret"></b></a>
 		            <ul class="dropdown-menu">
@@ -52,5 +44,5 @@
 			</ul>
 			</div>
 	   	</div>
-	</div>
+<!-- 	</div> -->
 </div>

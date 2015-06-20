@@ -10,7 +10,7 @@
 <link rel="icon" type="image/png" sizes="96x96" href="${pageContext.request.contextPath}/resources/images/favicon-96x96.png">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/Font-Awesome/css/font-awesome.css">
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/bootstrap/css/bootstrap-select.min.css">
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/bootstrap-select.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/bootstrap/css/bootstrap-timepicker.min.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/build.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/prettify.css">
@@ -40,7 +40,7 @@
 	 	 The server is temporarily unable to handle the request.
 	    </div>
 	</div>
-	<div class="col-sm-6 col-md-12">
+	<div class="col-sm-12 col-md-12" style="border:1px dashed #ddd">
 	    <div class="row">
 	        <div class="col-xs-2">
 				<div class="form-group">
@@ -69,26 +69,44 @@
 	        <div class="col-xs-12">
 				<div class="form-group">
 			   		<label class="control-label">Corrected age (mo.)</label>
-			   		<div>
-			   		<ul class="pagination" style="margin: 0px !important;">
-				        <li><a href="#">1</a></li>
-				        <li><a href="#">2</a></li>
-				        <li><a href="#">3</a></li>
-				        <li><a href="#">4</a></li>
-				        <li><a href="#">5</a></li>
-				        <li><a href="#">6</a></li>
-				        <li><a href="#">7</a></li>
-				        <li><a href="#">8</a></li>
-				        <li><a href="#">9</a></li>
-				        <li><a href="#">10</a></li>
-				        <li><a href="#">11</a></li>
-				        <li><a href="#">12</a></li>
-				        <li><a href="#">18</a></li>
-				        <li><a href="#">24</a></li>
-				        <li><a href="#">30</a></li>
-				        <li><a href="#">36</a></li>
-			    	</ul>	
-			   		</div>	       	
+			   		<div class="btn-group" data-toggle="buttons">
+						<label class="btn btn-default"><input type="radio" name="correctedAge" value="1" />1</label> 
+	                	<label class="btn btn-default"><input type="radio" name="correctedAge" value="2" />2</label> 
+						<label class="btn btn-default"><input type="radio" name="correctedAge" value="3" />3</label> 
+	                	<label class="btn btn-default"><input type="radio" name="correctedAge" value="4" />4</label> 
+	                	<label class="btn btn-default"><input type="radio" name="correctedAge" value="5" />5</label> 
+	                	<label class="btn btn-default"><input type="radio" name="correctedAge" value="6" />6</label>
+						<label class="btn btn-default"><input type="radio" name="correctedAge" value="7" />7</label> 
+	                	<label class="btn btn-default"><input type="radio" name="correctedAge" value="8" />8</label> 
+						<label class="btn btn-default"><input type="radio" name="correctedAge" value="9" />9</label> 
+	                	<label class="btn btn-default"><input type="radio" name="correctedAge" value="10" />10</label> 
+	                	<label class="btn btn-default"><input type="radio" name="correctedAge" value="11" />11</label> 
+	                	<label class="btn btn-default"><input type="radio" name="correctedAge" value="12" />12</label>
+						<label class="btn btn-default"><input type="radio" name="correctedAge" value="18" />18</label> 
+	                	<label class="btn btn-default"><input type="radio" name="correctedAge" value="24" />24</label> 
+						<label class="btn btn-default"><input type="radio" name="correctedAge" value="30" />30</label> 
+	                	<label class="btn btn-default"><input type="radio" name="correctedAge" value="36" />36</label> 	                		                	 
+                	</div>
+<!-- 			   		<div> -->
+<!-- 			   		<ul class="pagination" style="margin: 0px !important;"> -->
+<!-- 				        <li><a href="#">1</a></li> -->
+<!-- 				        <li><a href="#">2</a></li> -->
+<!-- 				        <li><a href="#">3</a></li> -->
+<!-- 				        <li><a href="#">4</a></li> -->
+<!-- 				        <li><a href="#">5</a></li> -->
+<!-- 				        <li><a href="#">6</a></li> -->
+<!-- 				        <li><a href="#">7</a></li> -->
+<!-- 				        <li><a href="#">8</a></li> -->
+<!-- 				        <li><a href="#">9</a></li> -->
+<!-- 				        <li><a href="#">10</a></li> -->
+<!-- 				        <li><a href="#">11</a></li> -->
+<!-- 				        <li><a href="#">12</a></li> -->
+<!-- 				        <li><a href="#">18</a></li> -->
+<!-- 				        <li><a href="#">24</a></li> -->
+<!-- 				        <li><a href="#">30</a></li> -->
+<!-- 				        <li><a href="#">36</a></li> -->
+<!-- 			    	</ul>	 -->
+<!-- 			   		</div>	       	 -->
 				</div>
 	        </div>
 	    </div>
@@ -174,10 +192,11 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/respond.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/bootstrap/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/prettify.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/resources/bootstrap/js/bootstrap-select.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/bootstrap-select.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/bootstrap/js/bootstrap-timepicker.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
+	$('.selectpicker').selectpicker();
     $('#TOB').timepicker({
         template: false,
         showInputs: false,

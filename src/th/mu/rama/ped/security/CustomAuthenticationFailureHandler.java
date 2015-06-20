@@ -26,8 +26,8 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
 //		map.put("error", true);
 //		map.put("message", exception.getMessage());
 //
-//		request.setAttribute("error", true);
-//		request.setAttribute("message", exception.getMessage());
+		request.getSession().setAttribute("error", true);
+		request.getSession().setAttribute("message", exception.getMessage());
 		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);  
 		response.sendRedirect("login-error");  
 

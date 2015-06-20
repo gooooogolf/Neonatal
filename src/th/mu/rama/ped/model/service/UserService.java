@@ -10,5 +10,5 @@ import th.mu.rama.ped.model.entity.User;
  *
  */
 public interface UserService extends GenericService<User> {
-	public User get(String userId);
+	public User get(String username);
 }

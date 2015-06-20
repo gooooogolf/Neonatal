@@ -25,9 +25,9 @@ public class UserServiceImpl extends GenericServiceImpl<User> implements UserSer
 	UserDAO dao;
 
 	@Override
-	public User get(String userId) {
+	public User get(String username) {
 		// TODO Auto-generated method stub
-		return dao.get(userId);
+		return dao.get(username);
 	}
 
 	

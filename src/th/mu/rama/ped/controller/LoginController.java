@@ -31,8 +31,9 @@ public class LoginController {
 	}
 	
 	@RequestMapping(value="/login-error", method=RequestMethod.GET)
-	public String invalidLogin(Model model) {
-		model.addAttribute("error", true);
+	public String invalidLogin(Model model, HttpServletRequest request) {
+		model.addAttribute("error", request.getSession().getAttribute("error"));
+		model.addAttribute("message", request.getSession().getAttribute("message"));
 		return "login";
 	}
 	

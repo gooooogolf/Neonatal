@@ -16,10 +16,10 @@ import th.mu.rama.ped.model.entity.User;
 public class UserDAOImpl extends GenericDAOImpl<User> implements UserDAO {
 
 	@Override
-	public User get(String userId) {
+	public User get(String username) {
         Query query = sessionFactory.getCurrentSession().createQuery(
                 "from User u where u.username = :username");
-        query.setParameter("username", userId);
+        query.setParameter("username", username);
         if(query.list().isEmpty()) return null;
         return (User) query.list().get(0);
 	}
