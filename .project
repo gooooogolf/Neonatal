@@ -3,6 +3,7 @@
 	<name>Neonatal</name>
 	<comment></comment>
 	<projects>
+		<project>FoxWebServiceClient</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

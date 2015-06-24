@@ -172,22 +172,27 @@
 <script type="text/javascript">
 var __staffId = 'Test';
 $(document).ready(function() {
+	$('#mrn').select();
 	
 	$('.selectpicker').selectpicker();
 	
     $('#TOB').timepicker({
         template: false,
         showInputs: false,
-        minuteStep: 5
+        minuteStep: 5,
+        showMeridian: false
     });    
     
     $('#submit').click(autoSave);
     $('#get').click(function() {
-    	getAnswers($('#mrn').val(), 'IPD');    	
+		var mrn = $('#mrn').val();
+//     	getPatientDetailByMrn(mrn);
+    	getAnswers(mrn, 'IPD');    	
     });
     $('#mrn').keypress(function(e) {
     	var mrn = $(this).val();
         if(e.which == 13) {
+//         	getPatientDetailByMrn(mrn);
         	getAnswers(mrn, 'IPD');
         }
     });
@@ -284,6 +289,31 @@ function autoSave() {
 	}
 }
 
+function getPatientDetailByMrn(mrn) {
+	$.ajax({
+	    url: '${pageContext.request.contextPath}/patient/'+ mrn,
+	    type: "GET",
+	    dataType:"json",
+	    contentType: "application/json",
+	    cache: false,
+	    success: function(patient) {
+	    	$('.panel-body').text('Last Update ' + new Date());
+	    	if (patient) {
+	    		$('#mrn').val(mrn);
+	    		$('#name').val(patient.initialName + patient.firstName + ' ' + patient.lastName);
+	    		$('#DOB').val(patient.dob);
+	    	}
+	    	else {
+	    		$('#name').val('');
+	    		$('#DOB').val('');
+	    	}
+	    },
+	    error: function(jqXHR, textStatus, errorThrown) {
+	    	$('.panel-body').text(this.url + '\njqXHR status : ' + jqXHR.status + '\ntextStatus : ' + textStatus + '\nThrown : ' + errorThrown);
+	    }
+	});	
+}
+
 function getAnswers(mrn, workgroup) {
 	$.ajax({
 	    url: '${pageContext.request.contextPath}/answer/getAnswers',
@@ -320,6 +350,7 @@ function getAnswers(mrn, workgroup) {
 				$(':checkbox, :radio').prop('checked', false);
 				$('.selectpicker').selectpicker('val', 0);
 	    	}
+	    	getPatientDetailByMrn(mrn);
 
 	    },
 	    error: function(jqXHR, textStatus, errorThrown) {

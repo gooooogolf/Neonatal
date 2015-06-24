@@ -16,6 +16,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import th.mu.rama.ped.model.entity.User;
+import th.mu.rama.ped.model.service.PatientService;
 import th.mu.rama.ped.model.service.UserService;
 /**
  * @author Sirimongkol
@@ -25,7 +26,9 @@ import th.mu.rama.ped.model.service.UserService;
 public class CustomAuthenticationManager implements AuthenticationManager{
 	
 	protected static Logger logger = Logger.getLogger(CustomAuthenticationManager.class);
-
+	
+	@Autowired
+	private PatientService patientService;	
 	@Autowired
 	private UserService userService;	
 
@@ -45,19 +48,18 @@ public class CustomAuthenticationManager implements AuthenticationManager{
 		}
 		else {
 			try {
-				User user = userService.get(username);
-				if (user != null) {
-					if (auth.getCredentials().equals("1111")) {
-						return new UsernamePasswordAuthenticationToken(auth.getName(), auth.getCredentials(), getAuthorities(user.getRoleId()));
+				boolean isAuthen = patientService.isAuthenticate(username, password);
+				if (isAuthen) {
+					User user = userService.get(username);
+					if (user != null) {
+						return new UsernamePasswordAuthenticationToken(auth.getName(), auth.getCredentials(), getAuthorities(user.getRoleId()));						
+					} else {
+						throw new BadCredentialsException("รหัสบุคคล " + username + " ไม่ได้รับสิทธิ์ในการใช้งาน, กรุณาตรวจสอบ");
 					}
-					else {
-						throw new BadCredentialsException("Password ไม่ถูกต้อง กรุณาตรวจสอบ");
-					}
-				} else {
-					throw new BadCredentialsException("รหัสบุคคล " + username + " ไม่ได้รับสิทธิ์ในการใช้งาน, กรุณาตรวจสอบ");
 				}
-
-				
+				else {
+					throw new BadCredentialsException("Password ไม่ถูกต้อง กรุณาตรวจสอบ");
+				}
 			} catch (Exception e) {
 				throw new BadCredentialsException(e.getMessage());
 			}

@@ -196,13 +196,47 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/bootstrap/js/bootstrap-timepicker.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
+	$('#mrn').select();
 	$('.selectpicker').selectpicker();
     $('#TOB').timepicker({
         template: false,
         showInputs: false,
-        minuteStep: 5
+        minuteStep: 5,
+        showMeridian: false
+    }); 
+    
+    $('#mrn').keypress(function(e) {
+    	var mrn = $(this).val();
+        if(e.which == 13) {
+        	getPatientDetailByMrn(mrn);
+        }
     });
 });
+
+function getPatientDetailByMrn(mrn) {
+	$.ajax({
+	    url: '${pageContext.request.contextPath}/patient/'+ mrn,
+	    type: "GET",
+	    dataType:"json",
+	    contentType: "application/json",
+	    cache: false,
+	    success: function(patient) {
+	    	$('.panel-body').text('Last Update ' + new Date());
+	    	if (patient) {
+	    		$('#mrn').val(mrn);
+	    		$('#name').val(patient.initialName + patient.firstName + ' ' + patient.lastName);
+	    		$('#DOB').val(patient.dob);
+	    	}
+	    	else {
+	    		$('#name').val('');
+	    		$('#DOB').val('');
+	    	}
+	    },
+	    error: function(jqXHR, textStatus, errorThrown) {
+	    	$('.panel-body').text(this.url + '\njqXHR status : ' + jqXHR.status + '\ntextStatus : ' + textStatus + '\nThrown : ' + errorThrown);
+	    }
+	});	
+}
 </script>
 </body>
 </html>
