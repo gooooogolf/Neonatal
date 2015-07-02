@@ -134,6 +134,11 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/bootstrap/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/bootstrap-select.js"></script>
 <script type="text/javascript">
+
+if ($.browser.msie  && parseInt($.browser.version, 10) <= 7) {
+	window.location.href = '${pageContext.request.contextPath}/j_spring_security_logout';
+} 
+
 var __rowTemplate;
 
 var __panelTemplate = '';

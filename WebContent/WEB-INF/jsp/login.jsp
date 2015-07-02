@@ -57,11 +57,18 @@
         </div>
     </div>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jquery-1.8.3.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/html5shiv.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/respond.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/bootstrap/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/bootstrap/js/bootstrap-select.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
+	if ($.browser.msie  && parseInt($.browser.version, 10) <= 7) {
+// 		  alert('กรุณาใช้ Browser IE Version 8 ขึ้นไป หรือ Chrome, Firefox, Safari'); 
+// 		  window.close();
+		$('#loginform').remove();
+		$('#loginbox').html('<div id="login-alert" class="alert alert-danger col-sm-12">กรุณาใช้ Browser IE Version 8 ขึ้นไป หรือ Chrome, Firefox, Safari เท่านั้น</div>');
+	} 
 	$('#login-username').select();
 });
 </script>

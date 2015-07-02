@@ -9,6 +9,12 @@
 /*     background-color: #e74c3c; */
 }
 </style>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jquery-1.8.3.js"></script>
+<script type="text/javascript">
+if ($.browser.msie  && parseInt($.browser.version, 10) <= 7) {
+	window.location.href = '${pageContext.request.contextPath}/j_spring_security_logout';
+} 
+</script>
 <div id="menu" class="navbar navbar-default navbar-fixed-top">
 <!-- <div id="menu" class="navbar navbar-default navbar-fixed-top navbar-custom"> -->
 <!-- 	<div class="container"> -->
