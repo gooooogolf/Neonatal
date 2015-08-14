@@ -82,7 +82,7 @@ public class QuestionController {
 		Question question = this.questionService.find(questionId);
 		model.addAttribute("question", question);
 		model.addAttribute("questionType", question.getQuestionType());
-		model.addAttribute("choices", JSONArray.fromObject(question.getChoices()));
+		model.addAttribute("choices", JSONArray.fromObject(question.getChoices()).toString().replaceAll("'", "\\\\'"));
         return "question-view";
     }
 	

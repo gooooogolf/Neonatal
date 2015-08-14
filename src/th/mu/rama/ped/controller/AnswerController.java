@@ -59,7 +59,7 @@ public class AnswerController {
 		});
 
 		model.addAttribute("questions", questions);
-		model.addAttribute("JSONArray_questions", JSONArray.fromObject(questions));
+		model.addAttribute("JSONArray_questions", JSONArray.fromObject(questions).toString().replaceAll("'", "\\\\'"));
         return "answer-ipd";
     }
 	

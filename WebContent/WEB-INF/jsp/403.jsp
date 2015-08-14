@@ -19,6 +19,10 @@
 
 </div>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jquery-1.8.3.js"></script>
+<!--[if lt IE 9]>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/html5shiv.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/respond.js"></script>
+<![endif]-->
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/bootstrap/js/bootstrap.min.js"></script>
 </body>
 </html>
