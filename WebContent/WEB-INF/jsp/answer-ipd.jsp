@@ -327,7 +327,8 @@ function getAnswers(mrn, workgroup) {
 	    cache: false,
 	    success: function(answers) {
 	    	$('.panel-body').text('Last Update ' + new Date());
-	    	if (answers) {
+	    	clearAllData();
+	    	if (answers) {	    		
 	    		var answer = null;
 	    		for (var i = 0; i < answers.length; i++) {
 	    			answer = answers[i];
@@ -348,13 +349,7 @@ function getAnswers(mrn, workgroup) {
 	    			}
 	    		}
 	    	}
-	    	else {
-	    		$(':input').not(':button, :submit, :reset, :hidden, :checkbox, :radio').val('');
-				$(':checkbox, :radio').prop('checked', false);
-				$('.selectpicker').selectpicker('val', 0);
-	    	}
 	    	getPatientDetailByMrn(mrn);
-
 	    },
 	    error: function(jqXHR, textStatus, errorThrown) {
 	    	$('.panel-body').text(this.url + '\njqXHR status : ' + jqXHR.status + '\ntextStatus : ' + textStatus + '\nThrown : ' + errorThrown);
@@ -362,6 +357,11 @@ function getAnswers(mrn, workgroup) {
 	});	
 }
 
+function clearAllData() {
+	$(':input').not(':button, :submit, :reset, :hidden, :checkbox, :radio').val('');
+	$(':checkbox, :radio').prop('checked', false);
+	$('.selectpicker').selectpicker('val', 0);
+}
 </script>
 </body>
 </html>
