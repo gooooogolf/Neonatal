@@ -38,21 +38,26 @@ public class PatientServiceImpl implements PatientService {
 	 */
 	@Override
 	public boolean isAuthenticate(String username, String password) {
-	    try{
-	    	Patientservice locator = new PatientserviceLocator();
-	    	PatientserviceSoapPort port = locator.getpatientserviceSoapPort(new URL(Configuration.WS_SOAP_PATIENTSERVICE_WSDL));
-	    	PatientserviceSoapBindingStub stub = (PatientserviceSoapBindingStub)port;
-	    	stub.setTimeout(3000);
-	    	String xml = stub.get_staff_detail(username, password);
-	    	if(xml!=null && !xml.isEmpty()){
-		    	ByteArrayInputStream byteStream = new ByteArrayInputStream(xml.getBytes("UTF-8"));
-		    	JAXBContext context = JAXBContext.newInstance(new Class[] {StaffDetailWrapper.class});
-		    	Unmarshaller unmarshaller = context.createUnmarshaller();
-		    	StaffDetailWrapper wrapper = (StaffDetailWrapper)unmarshaller.unmarshal((InputStream)byteStream);
-		    	logger.debug(!wrapper.getStaffDetail().getName().isEmpty());
-		    	return (!wrapper.getStaffDetail().getName().isEmpty())?true:false;
+	    try {
+	    	if (Configuration.VERSION.equals("Test")) {
+	    		return (username.equals("006223") && password.equals("006223"));
 	    	}
-	    }catch(Exception e){
+	    	else {
+		    	Patientservice locator = new PatientserviceLocator();
+		    	PatientserviceSoapPort port = locator.getpatientserviceSoapPort(new URL(Configuration.WS_SOAP_PATIENTSERVICE_WSDL));
+		    	PatientserviceSoapBindingStub stub = (PatientserviceSoapBindingStub)port;
+		    	stub.setTimeout(3000);
+		    	String xml = stub.get_staff_detail(username, password);
+		    	if(xml!=null && !xml.isEmpty()){
+			    	ByteArrayInputStream byteStream = new ByteArrayInputStream(xml.getBytes("UTF-8"));
+			    	JAXBContext context = JAXBContext.newInstance(new Class[] {StaffDetailWrapper.class});
+			    	Unmarshaller unmarshaller = context.createUnmarshaller();
+			    	StaffDetailWrapper wrapper = (StaffDetailWrapper)unmarshaller.unmarshal((InputStream)byteStream);
+			    	logger.debug(!wrapper.getStaffDetail().getName().isEmpty());
+			    	return (!wrapper.getStaffDetail().getName().isEmpty())?true:false;
+		    	}
+	    	}
+	    } catch(Exception e){
 	    	throw new RuntimeException(e.getMessage());
 	    }
 		return false;
@@ -62,18 +67,25 @@ public class PatientServiceImpl implements PatientService {
 	public PatientDetail getPatientDetailByMrn(String mrn) {
 
 	    try{
-	    	Patientservice locator = new PatientserviceLocator();
-	    	PatientserviceSoapPort port = locator.getpatientserviceSoapPort(new URL(Configuration.WS_SOAP_PATIENTSERVICE_WSDL));
-	    	PatientserviceSoapBindingStub stub = (PatientserviceSoapBindingStub)port;
-	    	stub.setTimeout(3000);
-	    	String xml = stub.get_demographic_long(mrn);
-	    	if(xml!=null && !xml.isEmpty()){
-		    	ByteArrayInputStream byteStream = new ByteArrayInputStream(xml.getBytes("UTF-8"));
-		    	JAXBContext context = JAXBContext.newInstance(new Class[] {PatientDetailWrapper.class});
-		    	Unmarshaller unmarshaller = context.createUnmarshaller();
-		    	PatientDetailWrapper wrapper = (PatientDetailWrapper)unmarshaller.unmarshal((InputStream) byteStream);
-		    	return wrapper.getPatientDetail()== null ? null : wrapper.getPatientDetail();
+	    	if (Configuration.VERSION.equals("Test")) {
+//	    		return (username.equals("006223") && password.equals("006223"));
+	    		return new PatientDetail();
 	    	}
+	    	else {
+		    	Patientservice locator = new PatientserviceLocator();
+		    	PatientserviceSoapPort port = locator.getpatientserviceSoapPort(new URL(Configuration.WS_SOAP_PATIENTSERVICE_WSDL));
+		    	PatientserviceSoapBindingStub stub = (PatientserviceSoapBindingStub)port;
+		    	stub.setTimeout(3000);
+		    	String xml = stub.get_demographic_long(mrn);
+		    	if(xml!=null && !xml.isEmpty()){
+			    	ByteArrayInputStream byteStream = new ByteArrayInputStream(xml.getBytes("UTF-8"));
+			    	JAXBContext context = JAXBContext.newInstance(new Class[] {PatientDetailWrapper.class});
+			    	Unmarshaller unmarshaller = context.createUnmarshaller();
+			    	PatientDetailWrapper wrapper = (PatientDetailWrapper)unmarshaller.unmarshal((InputStream) byteStream);
+			    	return wrapper.getPatientDetail()== null ? null : wrapper.getPatientDetail();
+		    	}
+	    	}
+
 	    }catch(Exception e){
 	    	throw new RuntimeException(e.getMessage());
 	    }

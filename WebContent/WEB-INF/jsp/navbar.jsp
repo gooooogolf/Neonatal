@@ -38,7 +38,7 @@ if ($.browser.msie  && parseInt($.browser.version, 10) <= 7) {
 		                <li><a href="${pageContext.request.contextPath}/answer/opd">OPD</a></li>
 		            </ul>
 			    </li>
-			    <li><a href="${pageContext.request.contextPath}">รายงาน</a></li>
+			    <li><a href="${pageContext.request.contextPath}/report">รายงาน</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 		        <li class="dropdown">
