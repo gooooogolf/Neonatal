@@ -68,46 +68,34 @@
 		<div class="panel panel-default">
 	    <div class="panel-heading">การวินิจฉัยหลัก</div>
 		<div class="panel-body">
-<!-- 			<div class="row"> -->
-<!-- 		        <div class="col-lg-12"> -->
-<!-- 					<form class="form-horizontal" action="javascript:void(0)">	 -->
-<!-- 					<div class="form-group"> -->
-<!-- 						<label class="control-label col-md-2" for="RDS">RDS</label>  -->
-<!-- 						<div class="col-md-2"> -->
-<!-- 							<input class="form-control" readonly="readonly" id="RDS"/> -->
-<!-- 						</div> -->
-<!-- 					</div>	 -->
-<!-- 					<div class="form-group"> -->
-<!-- 						<label class="control-label col-md-2" for="TTNB">TTNB</label>  -->
-<!-- 						<div class="col-md-2"> -->
-<!-- 							<input class="form-control" readonly="readonly" id="TTNB"/> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-<!-- 					</form> -->
-<!-- 				</div> -->
-<!-- 			</div> -->
 			<ul>
-			  	<li><p>RDS&nbsp;&nbsp;<span class="label label-default">1</span></p></li>
-			  	<li><p>TTNB&nbsp;&nbsp;<span class="label label-default">1</span></p></li>
-			  	<li><p>PPHN&nbsp;&nbsp;<span class="label label-default">1</span></p></li>
-				<li><p>BPD&nbsp;&nbsp;<span class="label label-default">1</span></p></li>	
-				<li><p>Pneumonia&nbsp;&nbsp;<span class="label label-default">1</span></p></li>		
-				<li><p>Pulmonary air leak&nbsp;&nbsp;<span class="label label-default">1</span></p></li>  
-				<li><p>Pneumothorax&nbsp;&nbsp;<span class="label label-default">1</span></p></li>
-				<li><p>PIE&nbsp;&nbsp;<span class="label label-default">1</span></p></li>
-				<li><p>Asphyxia&nbsp;&nbsp;<span class="label label-default">1</span></p></li>
-				<li><p>PDA (Significant, need Rx)&nbsp;&nbsp;<span class="label label-default">1</span></p></li>
+			  	<li><p>RDS&nbsp;&nbsp;<span class="label label-default" id="RES18">0</span></p></li>
+			  	<li><p>TTNB&nbsp;&nbsp;<span class="label label-default" id="RES21">0</span></p></li>
+			  	<li><p>PPHN&nbsp;&nbsp;<span class="label label-default" id="CVS11">0</span></p></li>
+				<li><p>BPD&nbsp;&nbsp;<span class="label label-default" id="RES06">0</span></p></li>	
+				<li><p>Pneumonia&nbsp;&nbsp;<span class="label label-default" id="ID08">0</span></p></li>		
+				<li><p>Pulmonary air leak&nbsp;&nbsp;<span class="label label-default" id="Pal_RES13_RES15">0</span></p></li>  
+				<li><p>Pneumothorax&nbsp;&nbsp;<span class="label label-default" id="RES13">0</span></p></li>
+				<li><p>PIE&nbsp;&nbsp;<span class="label label-default" id="RES15">0</span></p></li>
+				<li><p>Asphyxia&nbsp;&nbsp;<span class="label label-default" id="CNS01">0</span></p></li>
+				<li><p>PDA (Significant, need Rx)&nbsp;&nbsp;<span class="label label-default" id="CVS11">0</span></p></li>
 				<li><p>IVH</p>
 					<ul>
-						<li><p>gr. I-II&nbsp;&nbsp;<span class="label label-default">1</span></p>
-						<li><p>gr. III-IV&nbsp;&nbsp;<span class="label label-default">1</span></p>
+						<li><p>gr. I-II&nbsp;&nbsp;</p>
+						<li><p>gr. III-IV&nbsp;&nbsp;<span class="label label-default" id="CNS08">0</span></p>
 					</ul>
 				</li>
-				<li><p>PVL&nbsp;&nbsp;<span class="label label-default">1</span></p></li>
-				<li><p>NEC (>= stage2)&nbsp;&nbsp;<span class="label label-default">1</span></p></li>
-				<li><p>Sepsis (proven)&nbsp;&nbsp;<span class="label label-default">1</span></p></li>
-				<li><p>ROP(need Rx)&nbsp;&nbsp;<span class="label label-default">1</span></p></li>
-				<li><p>HIE&nbsp;&nbsp;<span class="label label-default">1</span></p></li>
+				<li><p>PVL&nbsp;&nbsp;<span class="label label-default" id="CNS10">0</span></p></li>
+				<li><p>NEC (>= stage2)&nbsp;&nbsp;<span class="label label-default" id="GI16">0</span></p></li>
+				<li><p>Sepsis (proven)&nbsp;&nbsp;<span class="label label-default" id="Sepsis_ID09_ID10">0</span></p></li>
+				<li><p>ROP(need Rx)&nbsp;&nbsp;<span class="label label-default" id="RSC03">0</span></p></li>
+				<li><p>HIE</p>
+					<ul>
+						<li><p>Mild&nbsp;&nbsp;<span class="label label-default" id="HIE01">0</span></p>
+						<li><p>Moderate&nbsp;&nbsp;<span class="label label-default" id="HIE02">0</span></p>
+						<li><p>Severe&nbsp;&nbsp;<span class="label label-default" id="HIE03">0</span></p>
+					</ul>
+				</li>
 			</ul>
 		</div>
 		</div>
@@ -117,8 +105,8 @@
 		    <div class="panel-heading">กรณี BW < 1500 กรัม (Total N = ....)</div>
 			<div class="panel-body">
 			<ul>
-				<li><p>วินิจฉัยหลัก&nbsp;&nbsp;<span class="label label-default">1</span></p></li>
-				<li><p>เสียชีวิต&nbsp;&nbsp;<span class="label label-default">1</span></p></li>
+				<li><p>วินิจฉัยหลัก&nbsp;&nbsp;<span class="label label-default" id="BWs">0</span></p></li>
+				<li><p>เสียชีวิต&nbsp;&nbsp;<span class="label label-default" id="Deads">0</span></p></li>
 			</ul>
 			</div>
 		</div>
@@ -151,7 +139,83 @@ $(document).ready(function() {
 	    autoclose: true
 	});
     
+    $('#get').click(function() {
+    	resetAllData();	
+    	getAnswersBetweenDate($('#startDate').val(), $('#endDate').val());
+    });
+    
 });
+
+var answerVars = ['RES18', 'RES21', 'CVS11', 'RES06', 'ID08', 'RES13', 'RES15', 'CNS01', 'CVS11', 'CNS08', 'CNS10', 'GI16', 'RSC03', 'HIE01', 'HIE02', 'HIE03']
+var Pal_RES13_RES15 = ['RES13', 'RES15'];
+var Sepsis_ID09_ID10 = ['ID09', 'ID10']
+var BWs = ['BWR01', 'BWR02', 'BWR03', 'BWR04', 'BWR05'];
+var Deads = ['DCT05'];
+
+function getAnswersBetweenDate(startDate, endDate) {
+	$.ajax({
+	    url: '${pageContext.request.contextPath}/answer/getAnswersBetweenDate',
+	    data: "startDate=" + startDate + "&endDate=" + endDate,
+	    type: "GET",
+	    dataType:"json",
+	    contentType: "application/json",
+	    cache: false,
+	    success: function(answers) {        
+	    	if (answers) {		       
+		        for(var i = 0; i < answers.length; i++) {
+			        for(var j = 0; j < answerVars.length; j++) {
+			        	if (answers[i].answerVar == answerVars[j]) {
+			        		$('#' + answerVars[j]).text(parseInt($('#' + answerVars[j]).text(), 10) + 1);
+			        	}
+			        }
+			        
+			        for(var j = 0; j < Pal_RES13_RES15.length; j++) {
+			        	if (answers[i].answerVar == Pal_RES13_RES15[j]) {
+			        		$('#Pal_RES13_RES15').text(parseInt($('#Pal_RES13_RES15').text(), 10) + 1);
+			        	}
+			        }
+			        
+			        for(var j = 0; j < Sepsis_ID09_ID10.length; j++) {
+			        	if (answers[i].answerVar == Sepsis_ID09_ID10[j]) {
+			        		$('#Sepsis_ID09_ID10').text(parseInt($('#Sepsis_ID09_ID10').text(), 10) + 1);
+			        	}
+			        }
+			        
+			        for(var j = 0; j < BWs.length; j++) {
+			        	if (answers[i].answerVar == BWs[j]) {
+			        		$('#BWs').text(parseInt($('#BWs').text(), 10) + 1);
+			        	}
+			        }
+			        
+			        for(var j = 0; j < Deads.length; j++) {
+			        	if (answers[i].answerVar == Deads[j]) {
+			        		$('#Deads').text(parseInt($('#Deads').text(), 10) + 1);
+			        	}
+			        }
+		        }
+	    	}
+			
+	    },
+	    error: function(jqXHR, textStatus, errorThrown) {
+	    	$('.panel-body').text(this.url + '\njqXHR status : ' + jqXHR.status + '\ntextStatus : ' + textStatus + '\nThrown : ' + errorThrown);
+	    }
+	});	
+}
+
+function resetAllData() {
+
+	for(var i = 0; i < answerVars.length; i++) {
+    	$('#' + answerVars[i]).text(0);
+    }
+    
+    $('#Pal_RES13_RES15').text(0);
+    
+    $('#Sepsis_ID09_ID10').text(0);
+
+    $('#BWs').text(0);
+
+    $('#Deads').text(0);
+}
 </script>
 </body>
 </html>

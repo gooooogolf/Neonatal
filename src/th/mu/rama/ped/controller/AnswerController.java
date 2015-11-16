@@ -154,4 +154,14 @@ public class AnswerController {
 		return answers.isEmpty() ? null : answers;
 	}
 	
+	
+	@RequestMapping(value = "/getAnswersBetweenDate", method = RequestMethod.GET, consumes = "application/json", produces = "application/json")
+    @ResponseBody
+    public List<Answer> getAnswersBetweenDate(HttpServletRequest request) {
+		String startDate = request.getParameter("startDate");
+		String endDate = request.getParameter("endDate");
+//		System.out.println(startDate + " to " + endDate);
+		List<Answer> answers = answerService.findBetweenDate(DateTime.stringtoDate(startDate, "dd/MM/yyyy"), DateTime.stringtoDate(endDate, "dd/MM/yyyy"));
+		return answers.isEmpty() ? null : answers;
+	}
 }

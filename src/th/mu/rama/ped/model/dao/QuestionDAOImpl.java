@@ -19,7 +19,5 @@ public class QuestionDAOImpl extends GenericDAOImpl<Question> implements
 	public Integer countByWorkgroup(String workgroup) {
 		String hql = "from Question q where q.workgroup = '" + workgroup + "' and q.status = 'active'";
 		return sessionFactory.getCurrentSession().createQuery(hql).list().size();
-	}
-
-	
+	}	
 }

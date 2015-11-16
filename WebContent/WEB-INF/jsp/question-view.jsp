@@ -35,7 +35,7 @@
 	                <li><a href="${pageContext.request.contextPath}/answer/opd">OPD</a></li>
 	            </ul>
 		    </li>
-		    <li><a href="${pageContext.request.contextPath}">รายงาน</a></li>
+		    <li><a href="${pageContext.request.contextPath}/report">รายงาน</a></li>
 		</ul>
 		<ul class="nav navbar-top-links navbar-right">
 	        <li class="dropdown">
